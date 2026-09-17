@@ -46,7 +46,6 @@ dist-ssr/
 
 # ───────── React / JS ─────────
 *.env
-.env.*
 coverage/
 *.cache
 .next/
