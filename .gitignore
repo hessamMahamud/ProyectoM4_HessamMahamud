@@ -1,4 +1,35 @@
-# Logs
+# ───────── Sistema ─────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+.Trash-*
+.Trashes
+.Spotlight-V100
+
+# ───────── Sincronización ─────────
+.syncthing.*
+.sync-conflict-*
+*.sync-conflict-*
+
+# ───────── Archivos ocultos comunes ─────────
+.fuse_hidden
+.directory
+
+# ───────── Editores ─────────
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ───────── Logs ─────────
 logs
 *.log
 npm-debug.log*
@@ -7,18 +38,22 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# ───────── Node / Build ─────────
+node_modules/
+dist/
+dist-ssr/
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# ───────── React / JS ─────────
+*.env
+.env.*
+coverage/
+*.cache
+.next/
+out/
+build/
+
+# ───────── Antigravity ─────────
+.antigravity/
+.antigravity-cache/
+.antigravity-temp/
