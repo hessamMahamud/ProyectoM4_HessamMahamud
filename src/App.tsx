@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import './App.css'
+import { auth } from "./config/firebase";
 
 function App() {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
 
     return (
         <>
