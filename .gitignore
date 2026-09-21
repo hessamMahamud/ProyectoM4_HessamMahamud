@@ -37,18 +37,36 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+firebase-debug.log
+
+# ───────── Variables de entorno y credenciales ─────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+serviceAccount*.json
+*-service-account.json
+secrets/
 
 # ───────── Node / Build ─────────
 node_modules/
 dist/
 dist-ssr/
-*.local
 .firebase/
+.vercel/
+*.local
 
-# ───────── React / JS ─────────
-*.env
+# ───────── Tests y caches ─────────
 coverage/
+test-results/
+playwright-report/
+*.tsbuildinfo
 *.cache
+.eslintcache
+.stylelintcache
+
+# ───────── Frameworks y builds ─────────
 .next/
 out/
 build/
