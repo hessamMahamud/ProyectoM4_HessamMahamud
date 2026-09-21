@@ -1,12 +1,34 @@
 import TaskList from '../../components/TaskList.tsx'
+import type { Task } from '../../hooks/useTasks'
 import './TodayPage.css'
 
 interface TodayPageProps {
     completed: number;
     total: number;
+    tasks: Task[];
+    tasksLoading: boolean;
+    tasksError: string;
+    toggleCompleted: (task: Task) => Promise<void>;
+    deleteTask: (taskId: string) => Promise<void>;
+    saveEdit: (taskId: string, title: string, description: string) => Promise<boolean>;
+    onSendSummary: () => void;
+    sendingSummary: boolean;
+    summaryStatus: { type: 'success' | 'error'; message: string } | null;
 }
 
-export default function TodayPage({ completed, total }: TodayPageProps) {
+export default function TodayPage({
+    completed,
+    total,
+    tasks,
+    tasksLoading,
+    tasksError,
+    toggleCompleted,
+    deleteTask,
+    saveEdit,
+    onSendSummary,
+    sendingSummary,
+    summaryStatus,
+}: TodayPageProps) {
     const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
     const radius = 34;
     const circumference = 2 * Math.PI * radius;
@@ -29,6 +51,19 @@ export default function TodayPage({ completed, total }: TodayPageProps) {
                         <strong>{completed}</strong> de <strong>{total}</strong> tareas completadas
                     </p>
                     <p className="progress-coach-tip">{getCoachMessage()}</p>
+                    <button
+                        type="button"
+                        className="summary-email-button"
+                        onClick={onSendSummary}
+                        disabled={sendingSummary}
+                    >
+                        {sendingSummary ? 'Enviando...' : 'Enviar resumen por email'}
+                    </button>
+                    {summaryStatus && (
+                        <p className={`summary-email-status ${summaryStatus.type}`} role="status">
+                            {summaryStatus.message}
+                        </p>
+                    )}
                 </div>
 
                 <div className="progress-meter-container">
@@ -52,7 +87,14 @@ export default function TodayPage({ completed, total }: TodayPageProps) {
                 </div>
             </section>
 
-            <TaskList />
+            <TaskList
+                tasks={tasks}
+                loading={tasksLoading}
+                error={tasksError}
+                toggleCompleted={toggleCompleted}
+                deleteTask={deleteTask}
+                saveEdit={saveEdit}
+            />
         </div>
     );
 }

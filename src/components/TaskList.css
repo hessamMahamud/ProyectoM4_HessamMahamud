@@ -28,6 +28,28 @@
     box-shadow: var(--shadow-card);
 }
 
+.task-filters {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 0 4px 2px;
+}
+
+.task-filter-button {
+    background: transparent;
+    border-radius: var(--radius-pill);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 7px 12px;
+    white-space: nowrap;
+}
+
+.task-filter-button.active {
+    background: var(--surface-dark);
+    color: var(--text-white);
+}
+
 .task-list {
     list-style: none;
     padding: 0;

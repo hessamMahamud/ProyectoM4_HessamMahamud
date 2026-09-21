@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
-import { collection, query, where, onSnapshot } from 'firebase/firestore'
-import { db } from './services/firebase'
+import { useState } from 'react'
 import { useAuth } from './features/auth/Authenticator.tsx'
 import LoginForm from './components/LoginForm.tsx'
 import TaskForm from './components/TaskForm.tsx'
+import useTasks from './hooks/useTasks'
 import TodayPage from './features/today/TodayPage.tsx'
 import StatsPage from './features/stats/StatsPage.tsx'
 import HabitsPage from './features/habits/HabitsPage.tsx'
@@ -12,36 +11,57 @@ import './App.css'
 
 function App() {
     const { user, loading, logout } = useAuth();
+    const { tasks, loading: tasksLoading, error: tasksError, toggleCompleted, deleteTask, saveEdit } = useTasks(user?.uid);
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'today' | 'stats' | 'habits' | 'profile'>('today');
-    const [taskStats, setTaskStats] = useState({ total: 0, completed: 0 });
-    const [taskSummaries, setTaskSummaries] = useState<Array<{ title: string; description: string; completed: boolean }>>([]);
+    const [summaryStatus, setSummaryStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+    const [sendingSummary, setSendingSummary] = useState(false);
 
-    // Escuchar estadísticas de tareas del usuario para la tarjeta de progreso
-    useEffect(() => {
-        if (!user) return;
+    const taskStats = {
+        total: tasks.length,
+        completed: tasks.filter((task) => task.completed).length,
+    };
 
-        const q = query(
-            collection(db, 'tasks'),
-            where('userId', '==', user.uid)
-        );
+    const sendTaskSummary = async (): Promise<void> => {
+        const recipient = user?.email;
+        if (!recipient) {
+            setSummaryStatus({ type: 'error', message: 'Tu cuenta no tiene un email disponible.' });
+            return;
+        }
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const total = snapshot.docs.length;
-            const completed = snapshot.docs.filter((doc) => Boolean(doc.data().completed)).length;
-            setTaskStats({ total, completed });
-            setTaskSummaries(snapshot.docs.map((taskDoc) => {
-                const data = taskDoc.data();
-                return {
-                    title: data.title ?? '',
-                    description: data.description ?? '',
-                    completed: Boolean(data.completed),
-                };
-            }));
-        });
+        setSendingSummary(true);
+        setSummaryStatus(null);
 
-        return () => unsubscribe();
-    }, [user]);
+        try {
+            const response = await fetch('/api/send-task-summary', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    recipient,
+                    tasks: tasks.map((task) => ({
+                        title: task.title,
+                        description: task.description,
+                        completed: task.completed,
+                    })),
+                }),
+            });
+            const data = await response.json() as { error?: string };
+
+            if (!response.ok) {
+                throw new Error(data.error || 'No se pudo enviar el resumen.');
+            }
+
+            setSummaryStatus({ type: 'success', message: 'Resumen enviado ✓' });
+            window.setTimeout(() => setSummaryStatus(null), 3000);
+        } catch (sendError) {
+            setSummaryStatus({
+                type: 'error',
+                message: sendError instanceof Error ? sendError.message : 'No se pudo enviar el resumen.',
+            });
+        } finally {
+            setSendingSummary(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -132,6 +152,19 @@ function App() {
                         >
                             + Nueva tarea
                         </button>
+                        <button
+                            type="button"
+                            className="summary-email-button"
+                            onClick={() => void sendTaskSummary()}
+                            disabled={sendingSummary}
+                        >
+                            {sendingSummary ? 'Enviando...' : 'Enviar resumen por email'}
+                        </button>
+                        {summaryStatus && (
+                            <p className={`summary-email-status ${summaryStatus.type}`} role="status">
+                                {summaryStatus.message}
+                            </p>
+                        )}
                     </nav>
                 </div>
 
@@ -192,19 +225,35 @@ function App() {
 
                 <div className="app-view">
                     {activeTab === 'today' && (
-                        <TodayPage completed={taskStats.completed} total={taskStats.total} />
+                        <TodayPage
+                            completed={taskStats.completed}
+                            total={taskStats.total}
+                            tasks={tasks}
+                            tasksLoading={tasksLoading}
+                            tasksError={tasksError}
+                            toggleCompleted={toggleCompleted}
+                            deleteTask={deleteTask}
+                            saveEdit={saveEdit}
+                            onSendSummary={() => void sendTaskSummary()}
+                            sendingSummary={sendingSummary}
+                            summaryStatus={summaryStatus}
+                        />
                     )}
                     {activeTab === 'stats' && (
                         <StatsPage
                             completed={taskStats.completed}
                             total={taskStats.total}
-                            tasks={taskSummaries}
+                            tasks={tasks.map((task) => ({
+                                title: task.title,
+                                description: task.description,
+                                completed: task.completed,
+                            }))}
                             recipient={user.email || ''}
                         />
                     )}
                     {activeTab === 'habits' && <HabitsPage />}
                     {activeTab === 'profile' && (
-                        <ProfilePage user={user} onLogout={() => void logout()} />
+                        <ProfilePage user={user} />
                     )}
                 </div>
             </main>

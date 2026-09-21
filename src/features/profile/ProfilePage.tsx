@@ -3,10 +3,9 @@ import './ProfilePage.css'
 
 interface ProfilePageProps {
     user: User;
-    onLogout: () => void;
 }
 
-export default function ProfilePage({ user, onLogout }: ProfilePageProps) {
+export default function ProfilePage({ user }: ProfilePageProps) {
     const userName = user.displayName || user.email?.split('@')[0] || 'Viajero';
     const initials = userName.charAt(0).toUpperCase();
 
@@ -77,10 +76,6 @@ export default function ProfilePage({ user, onLogout }: ProfilePageProps) {
                     </div>
                 </section>
             </div>
-
-            <button type="button" className="profile-logout-button" onClick={onLogout}>
-                Cerrar sesión
-            </button>
         </section>
     );
 }

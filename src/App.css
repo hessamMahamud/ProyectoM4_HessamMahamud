@@ -209,6 +209,39 @@
     font-style: italic;
 }
 
+.summary-email-button {
+    background-color: var(--accent-orange);
+    color: var(--text-white);
+    border-radius: var(--radius-pill);
+    padding: 9px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.summary-email-button:hover:not(:disabled) {
+    background-color: var(--accent-orange-hover);
+    transform: translateY(-1px);
+}
+
+.summary-email-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.summary-email-status {
+    margin: 0;
+    font-size: 0.78rem;
+}
+
+.summary-email-status.success {
+    color: #B7E4C7;
+}
+
+.summary-email-status.error {
+    color: #FFD0CC;
+}
+
 /* Indicador Circular SVG */
 .progress-meter-container {
     position: relative;
@@ -502,6 +535,10 @@
         display: none;
     }
 
+    .app-header .logout-icon-btn {
+        display: none;
+    }
+
     /* Mostrar Sidebar de escritorio */
     .desktop-sidebar {
         display: flex;
@@ -636,6 +673,10 @@
     .progress-card-info {
         align-items: center;
         margin-bottom: 8px;
+    }
+
+    .summary-email-button {
+        width: 100%;
     }
 
     .progress-meter-container {
