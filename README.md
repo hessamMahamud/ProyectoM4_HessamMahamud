@@ -76,7 +76,7 @@ Este proyecto se construyó con dos asistentes de IA cumpliendo roles distintos 
 
 **El agente de Antigravity IDE** (requisito de este módulo) generó la mayoría del código fuente: el Context de autenticación, los componentes de formularios y listas, el hook `useTasks`, la función serverless de AWS SES, las reglas de Firestore y los estilos. Trabajó a partir de prompts específicos, no de instrucciones vagas tipo "hazme un login".
 
-**Claude** funcionó como mi asistente de código de cabecera durante todo el proyecto: el que explicaba primero el *qué* y el *por qué* de cada concepto (hooks, Context API, verbatimModuleSyntax, arquitectura mobile-first) antes de tocar código, y el que después, a medida que el tiempo apretaba, redactó junto a mí los prompts que le pasé al agente del IDE y revisó **cada entrega del agente antes de aceptarla**. Siendo honesto: los prompts que usé para dirigir al agente en la segunda mitad del proyecto los armamos entre los dos, no los escribí solo — se lo dejo claro acá en vez de atribuirme una autoría que no es completa.
+**Claude** funcionó como mi asistente de código de cabecera durante todo el proyecto: el que explicaba primero el *qué* y el *por qué* de cada concepto (hooks, Context API, verbatimModuleSyntax, arquitectura mobile-first) antes de tocar código. Redacté (con apoyo de Claude para afinar la redacción técnica) cada prompt que dirigí al agente de Antigravity, y revisé con Claude cada entrega antes de aceptarla en el proyecto — el listado completo de esos prompts, en orden y con el contexto de qué resolvía cada uno, está en `assets/docs/prompts-used.md`.
 
 Ejemplos concretos de bugs reales que esa revisión detectó antes de que llegaran a producción:
 
