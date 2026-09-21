@@ -15,6 +15,7 @@ function App() {
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'today' | 'stats' | 'habits' | 'profile'>('today');
     const [taskStats, setTaskStats] = useState({ total: 0, completed: 0 });
+    const [taskSummaries, setTaskSummaries] = useState<Array<{ title: string; description: string; completed: boolean }>>([]);
 
     // Escuchar estadísticas de tareas del usuario para la tarjeta de progreso
     useEffect(() => {
@@ -29,6 +30,14 @@ function App() {
             const total = snapshot.docs.length;
             const completed = snapshot.docs.filter((doc) => Boolean(doc.data().completed)).length;
             setTaskStats({ total, completed });
+            setTaskSummaries(snapshot.docs.map((taskDoc) => {
+                const data = taskDoc.data();
+                return {
+                    title: data.title ?? '',
+                    description: data.description ?? '',
+                    completed: Boolean(data.completed),
+                };
+            }));
         });
 
         return () => unsubscribe();
@@ -186,7 +195,12 @@ function App() {
                         <TodayPage completed={taskStats.completed} total={taskStats.total} />
                     )}
                     {activeTab === 'stats' && (
-                        <StatsPage completed={taskStats.completed} total={taskStats.total} />
+                        <StatsPage
+                            completed={taskStats.completed}
+                            total={taskStats.total}
+                            tasks={taskSummaries}
+                            recipient={user.email || ''}
+                        />
                     )}
                     {activeTab === 'habits' && <HabitsPage />}
                     {activeTab === 'profile' && (

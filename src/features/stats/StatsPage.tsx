@@ -1,16 +1,51 @@
+import { useState } from 'react'
 import './StatsPage.css'
+
+interface TaskSummary {
+    title: string;
+    description: string;
+    completed: boolean;
+}
 
 interface StatsPageProps {
     completed: number;
     total: number;
+    tasks: TaskSummary[];
+    recipient: string;
 }
 
-export default function StatsPage({ completed, total }: StatsPageProps) {
+export default function StatsPage({ completed, total, tasks, recipient }: StatsPageProps) {
+    const [sending, setSending] = useState(false);
+    const [emailStatus, setEmailStatus] = useState('');
     const pending = Math.max(total - completed, 0);
     const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
     const radius = 48;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (percent / 100) * circumference;
+
+    const handleSendSummary = async () => {
+        setSending(true);
+        setEmailStatus('');
+
+        try {
+            const result = await fetch('/api/send-task-summary', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipient, tasks }),
+            });
+            const data = await result.json() as { message?: string; error?: string };
+
+            if (!result.ok) {
+                throw new Error(data.error || 'No se pudo enviar el resumen.');
+            }
+
+            setEmailStatus(data.message || 'Resumen enviado correctamente.');
+        } catch (error) {
+            setEmailStatus(error instanceof Error ? error.message : 'No se pudo enviar el resumen.');
+        } finally {
+            setSending(false);
+        }
+    };
 
     return (
         <section className="feature-page stats-page">
@@ -20,8 +55,20 @@ export default function StatsPage({ completed, total }: StatsPageProps) {
                     <h2>Tu progreso</h2>
                     <p>Una mirada clara a todo lo que has avanzado.</p>
                 </div>
-                <span className="feature-date-chip">Hoy</span>
+                <div className="stats-header-actions">
+                    <span className="feature-date-chip">Hoy</span>
+                    <button
+                        type="button"
+                        className="stats-email-button"
+                        onClick={() => void handleSendSummary()}
+                        disabled={sending}
+                    >
+                        {sending ? 'Enviando...' : 'Enviar resumen'}
+                    </button>
+                </div>
             </header>
+
+            {emailStatus && <p className="stats-email-status" role="status">{emailStatus}</p>}
 
             <div className="stats-summary-grid">
                 <article className="stats-summary-card stats-summary-card-highlight">
