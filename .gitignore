@@ -43,6 +43,7 @@ node_modules/
 dist/
 dist-ssr/
 *.local
+.firebase/
 
 # ───────── React / JS ─────────
 *.env
