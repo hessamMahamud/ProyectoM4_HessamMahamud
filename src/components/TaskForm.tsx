@@ -3,8 +3,13 @@ import type { FormEvent, ReactElement } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import { useAuth } from '../features/auth/Authenticator.tsx'
+import './TaskForm.css'
 
-export default function TaskForm(): ReactElement {
+interface TaskFormProps {
+    onSuccess?: () => void;
+}
+
+export default function TaskForm({ onSuccess }: TaskFormProps = {}): ReactElement {
     const { user } = useAuth();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -38,6 +43,9 @@ export default function TaskForm(): ReactElement {
 
             setTitle('');
             setDescription('');
+            if (onSuccess) {
+                onSuccess();
+            }
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -50,31 +58,36 @@ export default function TaskForm(): ReactElement {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <h3>Crear nueva tarea</h3>
+        <form onSubmit={handleSubmit} className="task-form">
+            <div className="task-form-fields">
+                <input
+                    type="text"
+                    className="form-input"
+                    placeholder="¿Qué quieres lograr hoy?"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                    disabled={submitting}
+                />
 
-            <input
-                type="text"
-                placeholder="Título de la tarea"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-                disabled={submitting}
-            />
+                <textarea
+                    className="form-textarea"
+                    placeholder="Detalles o notas de bienestar (opcional)..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    disabled={submitting}
+                    rows={3}
+                />
+            </div>
 
-            <textarea
-                placeholder="Descripción (opcional)"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                disabled={submitting}
-                rows={3}
-                style={{ resize: 'vertical', fontFamily: 'inherit' }}
-            />
+            {error && (
+                <p className="task-form-error">
+                    {error}
+                </p>
+            )}
 
-            {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
-
-            <button type="submit" disabled={submitting}>
-                {submitting ? 'Guardando...' : 'Agregar tarea'}
+            <button type="submit" className="btn-pill-primary" disabled={submitting}>
+                {submitting ? 'Guardando...' : '+ Crear tarea'}
             </button>
         </form>
     );

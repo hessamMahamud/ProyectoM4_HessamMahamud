@@ -1,0 +1,242 @@
+.tasks-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tasks-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+}
+
+.tasks-section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.tasks-counter-chip {
+    background: #FFFFFF;
+    color: var(--surface-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-card);
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-card {
+    background-color: var(--surface-card);
+    border-radius: var(--radius-item);
+    box-shadow: var(--shadow-card);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.task-card.is-completed {
+    opacity: 0.82;
+    background-color: #FAFAFA;
+}
+
+.task-card-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.task-main-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex: 1;
+}
+
+.custom-checkbox-wrapper {
+    position: relative;
+    margin-top: 2px;
+}
+
+.custom-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    z-index: 2;
+    margin: 0;
+}
+
+.custom-checkbox-box {
+    width: 22px;
+    height: 22px;
+    border-radius: 8px;
+    border: 2px solid #C4BDB5;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.custom-checkbox-input:checked+.custom-checkbox-box {
+    background-color: var(--accent-orange);
+    border-color: var(--accent-orange);
+}
+
+.custom-checkbox-check {
+    display: none;
+    width: 14px;
+    height: 14px;
+    color: #FFFFFF;
+}
+
+.custom-checkbox-input:checked+.custom-checkbox-box .custom-checkbox-check {
+    display: block;
+}
+
+.task-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.task-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+    transition: color 0.2s ease;
+}
+
+.task-title.completed {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.task-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.task-desc.completed {
+    opacity: 0.6;
+}
+
+.task-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-icon-action {
+    background: var(--surface-card-subtle);
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+}
+
+.btn-icon-action:hover {
+    background: #EAE4DC;
+}
+
+.btn-icon-action.delete {
+    color: #D9534F;
+    background: #FFF5F5;
+}
+
+.btn-icon-action.delete:hover {
+    background: #FEE8E8;
+}
+
+.task-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.task-edit-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.task-edit-button {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
+.tasks-empty-card {
+    background: #FFFFFF;
+    border-radius: var(--radius-item);
+    padding: 36px 20px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.tasks-empty-icon {
+    font-size: 2.2rem;
+}
+
+.tasks-empty-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.tasks-empty-title {
+    font-weight: 600;
+    color: var(--text-dark) !important;
+}
+
+.task-list-error {
+    color: #D9534F;
+    margin: 0 0 8px 0;
+    font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+    .tasks-container {
+        gap: 16px;
+    }
+
+    .task-card {
+        padding: 16px 18px;
+    }
+
+    .tasks-empty-card {
+        padding: 36px 20px;
+    }
+}

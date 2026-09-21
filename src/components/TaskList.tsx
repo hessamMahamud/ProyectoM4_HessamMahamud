@@ -12,6 +12,7 @@ import {
 import type { Timestamp } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import { useAuth } from '../features/auth/Authenticator.tsx'
+import './TaskList.css'
 
 export interface Task {
     id: string;
@@ -143,55 +144,70 @@ export default function TaskList(): ReactElement {
     };
 
     if (loading) {
-        return <p>Cargando tareas...</p>;
+        return (
+            <div className="tasks-empty-card">
+                <p>Cargando tus tareas con calma...</p>
+            </div>
+        );
     }
 
     return (
-        <div style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h3>Mis Tareas ({tasks.length})</h3>
+        <div className="tasks-container">
+            <div className="tasks-section-header">
+                <h2>
+                    Mis <span className="highlight-orange">Tareas</span>
+                </h2>
+                <span className="tasks-counter-chip">
+                    {tasks.filter((t) => t.completed).length} / {tasks.length} listas
+                </span>
+            </div>
 
-            {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
+            {error && (
+                <p className="task-list-error">
+                    {error}
+                </p>
+            )}
 
             {tasks.length === 0 ? (
-                <p style={{ opacity: 0.7 }}>No tienes tareas creadas aún.</p>
+                <div className="tasks-empty-card">
+                    <span className="tasks-empty-icon">🌿</span>
+                    <p className="tasks-empty-title">
+                        Todo al día y en armonía
+                    </p>
+                    <p>No tienes tareas pendientes. Tómate una pausa o agrega un nuevo propósito.</p>
+                </div>
             ) : (
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <ul className="task-list">
                     {tasks.map((task) => {
                         const isEditing = editingTaskId === task.id;
 
                         return (
                             <li
                                 key={task.id}
-                                style={{
-                                    border: '1px solid var(--border, #444)',
-                                    borderRadius: '8px',
-                                    padding: '12px 16px',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '8px',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                                }}
+                                className={`task-card ${task.completed ? 'is-completed' : ''}`}
                             >
                                 {isEditing ? (
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <div className="task-edit-form">
                                         <input
                                             type="text"
+                                            className="form-input"
                                             value={editTitle}
                                             onChange={(e) => setEditTitle(e.target.value)}
                                             placeholder="Título de la tarea"
                                             disabled={actionLoading}
                                         />
                                         <textarea
+                                            className="form-textarea"
                                             value={editDescription}
                                             onChange={(e) => setEditDescription(e.target.value)}
                                             placeholder="Descripción"
                                             rows={2}
                                             disabled={actionLoading}
-                                            style={{ resize: 'vertical', fontFamily: 'inherit' }}
                                         />
-                                        <div style={{ display: 'flex', gap: '8px' }}>
+                                        <div className="task-edit-actions">
                                             <button
                                                 type="button"
+                                                className="btn-pill-primary task-edit-button"
                                                 onClick={() => void handleSaveEdit(task.id)}
                                                 disabled={actionLoading}
                                             >
@@ -199,6 +215,7 @@ export default function TaskList(): ReactElement {
                                             </button>
                                             <button
                                                 type="button"
+                                                className="btn-pill-secondary task-edit-button"
                                                 onClick={handleCancelEdit}
                                                 disabled={actionLoading}
                                             >
@@ -207,52 +224,57 @@ export default function TaskList(): ReactElement {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', flex: 1 }}>
-                                            <input
-                                                type="checkbox"
-                                                checked={task.completed}
-                                                onChange={() => void handleToggleCompleted(task)}
-                                                style={{ marginTop: '4px', cursor: 'pointer' }}
-                                                aria-label={`Marcar como completada tarea: ${task.title}`}
-                                            />
-                                            <div>
-                                                <h4
-                                                    style={{
-                                                        margin: 0,
-                                                        textDecoration: task.completed ? 'line-through' : 'none',
-                                                        opacity: task.completed ? 0.6 : 1,
-                                                    }}
-                                                >
+                                    <div className="task-card-content">
+                                        <div className="task-main-info">
+                                            <div className="custom-checkbox-wrapper">
+                                                <input
+                                                    type="checkbox"
+                                                    className="custom-checkbox-input"
+                                                    checked={task.completed}
+                                                    onChange={() => void handleToggleCompleted(task)}
+                                                    aria-label={`Completar tarea: ${task.title}`}
+                                                />
+                                                <div className="custom-checkbox-box">
+                                                    <svg
+                                                        className="custom-checkbox-check"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="3"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    >
+                                                        <polyline points="20 6 9 17 4 12" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+
+                                            <div className="task-text-group">
+                                                <h4 className={`task-title ${task.completed ? 'completed' : ''}`}>
                                                     {task.title}
                                                 </h4>
                                                 {task.description && (
-                                                    <p
-                                                        style={{
-                                                            margin: '4px 0 0',
-                                                            fontSize: '0.9rem',
-                                                            opacity: task.completed ? 0.5 : 0.8,
-                                                            whiteSpace: 'pre-wrap',
-                                                        }}
-                                                    >
+                                                    <p className={`task-desc ${task.completed ? 'completed' : ''}`}>
                                                         {task.description}
                                                     </p>
                                                 )}
                                             </div>
                                         </div>
 
-                                        <div style={{ display: 'flex', gap: '6px' }}>
+                                        <div className="task-actions">
                                             <button
                                                 type="button"
+                                                className="btn-icon-action"
                                                 onClick={() => handleStartEdit(task)}
-                                                style={{ fontSize: '0.85rem', padding: '4px 8px' }}
+                                                aria-label="Editar tarea"
                                             >
                                                 Editar
                                             </button>
                                             <button
                                                 type="button"
+                                                className="btn-icon-action delete"
                                                 onClick={() => void handleDelete(task.id)}
-                                                style={{ fontSize: '0.85rem', padding: '4px 8px', color: '#ff6b6b' }}
+                                                aria-label="Eliminar tarea"
                                             >
                                                 Eliminar
                                             </button>

@@ -1,0 +1,185 @@
+.habits-page {
+    gap: 24px;
+}
+
+.habit-score-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+.habit-score-chip strong {
+    color: var(--surface-dark);
+    font-size: 1.05rem;
+}
+
+.habit-hero-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    overflow: hidden;
+    padding: 24px;
+    border-radius: var(--radius-card);
+    background: var(--surface-dark);
+    box-shadow: var(--shadow-dark);
+    color: var(--text-white);
+}
+
+.habit-hero-kicker {
+    color: var(--accent-orange);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.habit-hero-card h3 {
+    max-width: 480px;
+    margin-top: 6px;
+    color: var(--text-white);
+    font-size: 1.25rem;
+}
+
+.habit-hero-card p {
+    max-width: 520px;
+    margin-top: 8px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.habit-hero-mark {
+    color: var(--accent-orange);
+    font-size: 3.2rem;
+    line-height: 1;
+}
+
+.habit-sections {
+    display: grid;
+    gap: 16px;
+}
+
+.habit-list-section {
+    padding: 20px;
+    border-radius: var(--radius-card);
+    background: var(--surface-card);
+    box-shadow: var(--shadow-card);
+}
+
+.habit-leave-section {
+    background: var(--surface-card-subtle);
+}
+
+.habit-section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.habit-section-heading h3 {
+    margin-top: 4px;
+    font-size: 1.05rem;
+}
+
+.habit-count {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent-orange-soft);
+    color: var(--surface-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.habit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.habit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 64px;
+    padding: 10px 12px;
+    border: 1px solid #F0EAE1;
+    border-radius: var(--radius-item);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.habit-item:hover {
+    border-color: var(--accent-orange);
+    background: var(--surface-card-subtle);
+}
+
+.habit-item input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.habit-checkmark {
+    display: grid;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border: 2px solid #C4BDB5;
+    border-radius: 8px;
+    color: transparent;
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.habit-item.is-done .habit-checkmark {
+    border-color: var(--accent-orange);
+    background: var(--accent-orange);
+    color: var(--text-white);
+}
+
+.habit-item-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.habit-item-copy strong {
+    color: var(--text-dark);
+    font-size: 0.88rem;
+}
+
+.habit-item-copy small {
+    color: var(--text-muted);
+    font-size: 0.74rem;
+}
+
+.habit-item.is-done .habit-item-copy strong {
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+@media (min-width: 768px) {
+    .habit-hero-card {
+        padding: 30px 32px;
+    }
+
+    .habit-sections {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .habit-list-section {
+        padding: 24px;
+    }
+}

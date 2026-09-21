@@ -1,184 +1,661 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/* ==========================================================================
+   TASK MANAGER - WELLNESS / COACH DESIGN SYSTEM
+   Mobile-first layout & desktop dashboard
+   ========================================================================== */
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
-
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
+/* Layout Shell (Mobile-First Base) */
+.app-shell {
     display: flex;
-    padding: 6px 12px;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--bg-primary);
+    position: relative;
+}
+
+/* Sidebar de escritorio (Oculto en móvil) */
+.desktop-sidebar {
+    display: none;
+}
+
+/* Contenedor principal de contenido */
+.app-content-wrapper {
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 16px 110px 16px;
+    /* Espacio inferior para la barra móvil */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
+    gap: 16px;
+    padding: 4px 0;
+}
 
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
+.header-greeting h1 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-dark);
+}
 
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
+.header-greeting p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.highlight-orange {
+    color: var(--accent-orange);
+    font-weight: 700;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.app-loading-card {
+    background: #FFFFFF;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    width: 100%;
+    max-width: 320px;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+}
+
+.loading-card-icon {
+    font-size: 2rem;
+}
+
+.loading-card-message {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.user-avatar-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--surface-card);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    align-items: center;
     justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+    color: var(--surface-dark);
+    font-weight: 600;
+    border: 2px solid #FFFFFF;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.logout-icon-btn {
+    background: var(--surface-card);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-pill);
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.ticks {
-  position: relative;
-  width: 100%;
+.logout-icon-btn:hover {
+    color: #D9534F;
+    background: #FFF5F5;
+}
 
-  &::before,
-  &::after {
+.sidebar-logout-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* Layout del Dashboard (apilado en móvil) */
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.app-view {
+    width: 100%;
+}
+
+/* ==========================================================================
+   TARJETA DESTACADA OSCURA (PROGRESO DIARIO)
+   ========================================================================== */
+.progress-card-dark {
+    background-color: var(--surface-dark);
+    border-radius: var(--radius-card);
+    padding: 24px;
+    color: var(--text-white);
+    box-shadow: var(--shadow-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-card-dark::before {
     content: '';
     position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
+    top: -40px;
+    right: -40px;
+    width: 130px;
+    height: 130px;
+    background: radial-gradient(circle, rgba(245, 166, 35, 0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
 
-  &::before {
+.progress-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 1;
+}
+
+.progress-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--accent-orange);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    width: fit-content;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.progress-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-white);
+    margin: 0;
+}
+
+.progress-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    opacity: 0.9;
+    margin: 0;
+}
+
+.progress-coach-tip {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* Indicador Circular SVG */
+.progress-meter-container {
+    position: relative;
+    width: 86px;
+    height: 86px;
+    min-width: 86px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.progress-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 7;
+}
+
+.progress-circle-fill {
+    fill: none;
+    stroke: var(--accent-orange);
+    stroke-width: 7;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-percentage-label {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-percent-number {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-white);
+    line-height: 1;
+}
+
+.progress-percent-text {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+   FORMULARIO Y ENTRADAS DE TEXTO
+   ========================================================================== */
+.form-input,
+.form-textarea {
+    width: 100%;
+    background-color: var(--surface-card-subtle);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-input);
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    background-color: #FFFFFF;
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 4px var(--accent-orange-soft);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Botón píldora principal */
+.btn-pill-primary {
+    background-color: var(--accent-orange);
+    color: var(--text-white);
+    border-radius: var(--radius-pill);
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 6px 18px var(--accent-orange-glow);
+    transition: all 0.2s ease;
+}
+
+.btn-pill-primary:hover:not(:disabled) {
+    background-color: var(--accent-orange-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px var(--accent-orange-glow);
+}
+
+.btn-pill-primary:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.btn-pill-secondary {
+    background-color: #EAE4DC;
+    color: var(--text-dark);
+    border-radius: var(--radius-pill);
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-pill-secondary:hover {
+    background-color: #DCD5CB;
+}
+
+/* ==========================================================================
+   BARRA DE NAVEGACIÓN INFERIOR (MÓVIL)
+   ========================================================================== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
     left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
     right: 0;
-    border-right-color: var(--border);
-  }
+    height: 72px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    box-shadow: 0 -4px 24px rgba(27, 60, 74, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 16px;
+    z-index: 100;
+}
+
+.nav-item-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: color 0.2s ease;
+}
+
+.nav-item-btn.active {
+    color: var(--surface-dark);
+    font-weight: 600;
+}
+
+.nav-item-btn.active svg {
+    stroke: var(--accent-orange);
+}
+
+/* Botón Central Elevado Naranja */
+.nav-add-btn-wrapper {
+    position: relative;
+    top: -20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-add-btn {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: var(--accent-orange);
+    color: var(--text-white);
+    box-shadow: var(--shadow-floating);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 4px solid var(--bg-primary);
+}
+
+.nav-add-btn:hover {
+    transform: translateY(-4px) scale(1.06);
+    background-color: var(--accent-orange-hover);
+    box-shadow: 0 14px 30px rgba(245, 166, 35, 0.5);
+}
+
+.nav-add-btn:active {
+    transform: translateY(0) scale(0.96);
+}
+
+/* ==========================================================================
+   MODAL / DRAWER SHEET (NUEVA TAREA)
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(27, 60, 74, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 200;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.modal-sheet {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 540px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    padding: 28px 24px 36px 24px;
+    box-shadow: 0 -10px 40px rgba(27, 60, 74, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.modal-close-btn {
+    background: var(--surface-card-subtle);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: #EAE4DC;
+    color: var(--text-dark);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE: DASHBOARD ESCRITORIO (@media min-width: 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+    .app-shell {
+        flex-direction: row;
+    }
+
+    /* Ocultar barra inferior en escritorio */
+    .bottom-nav {
+        display: none;
+    }
+
+    /* Mostrar Sidebar de escritorio */
+    .desktop-sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 270px;
+        min-width: 270px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        background: #FFFFFF;
+        padding: 32px 24px;
+        box-shadow: 4px 0 24px rgba(27, 60, 74, 0.04);
+        z-index: 10;
+    }
+
+    .sidebar-top {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .sidebar-brand h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .sidebar-brand p {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .sidebar-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: var(--radius-item);
+        background: transparent;
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        text-align: left;
+    }
+
+    .sidebar-nav-item.active {
+        background: var(--surface-card-subtle);
+        color: var(--surface-dark);
+    }
+
+    .sidebar-nav-item.active svg {
+        stroke: var(--accent-orange);
+    }
+
+    .sidebar-nav-item:hover:not(.active) {
+        background: #FAF8F5;
+        color: var(--text-dark);
+    }
+
+    .sidebar-cta-btn {
+        margin-top: 12px;
+        width: 100%;
+    }
+
+    .sidebar-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border-top: 1px solid #F0EAE1;
+        padding-top: 20px;
+    }
+
+    .sidebar-user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .sidebar-user-details {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .sidebar-user-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .sidebar-user-role {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    /* Contenedor principal en escritorio */
+    .app-content-wrapper {
+        max-width: 1200px;
+        margin: 0;
+        padding: 36px 48px;
+    }
+
+    /* Disposición lado a lado (tarjeta de progreso y lista de tareas) */
+    .dashboard-layout {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 32px;
+        align-items: start;
+    }
+
+    .progress-card-dark {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 32px 24px;
+        position: sticky;
+        top: 36px;
+    }
+
+    .progress-card-info {
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .progress-meter-container {
+        width: 110px;
+        height: 110px;
+        margin: 12px 0;
+    }
+
+    .progress-percent-number {
+        font-size: 1.35rem;
+    }
+
+    /* Modal centrado en escritorio */
+    .modal-overlay {
+        align-items: center;
+    }
+
+    .modal-sheet {
+        border-radius: 30px;
+        max-width: 480px;
+        animation: fadeIn 0.25s ease-out;
+    }
 }

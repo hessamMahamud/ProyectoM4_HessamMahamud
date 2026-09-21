@@ -1,0 +1,14 @@
+.today-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .today-page {
+        display: grid;
+        grid-template-columns: 340px minmax(0, 1fr);
+        gap: 32px;
+        align-items: start;
+    }
+}
