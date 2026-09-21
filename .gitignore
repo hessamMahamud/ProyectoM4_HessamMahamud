@@ -48,6 +48,7 @@ firebase-debug.log
 serviceAccount*.json
 *-service-account.json
 secrets/
+task-manager-user_accessKeys.csv
 
 # ───────── Node / Build ─────────
 node_modules/
