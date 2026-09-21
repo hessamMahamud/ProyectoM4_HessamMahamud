@@ -76,3 +76,4 @@ build/
 .antigravity/
 .antigravity-cache/
 .antigravity-temp/
+.vercel
