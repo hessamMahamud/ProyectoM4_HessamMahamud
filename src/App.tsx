@@ -1,5 +1,7 @@
 import { useAuth } from './features/auth/Authenticator.tsx'
 import LoginForm from './components/LoginForm.tsx'
+import TaskForm from './components/TaskForm.tsx'
+import TaskList from './components/TaskList.tsx'
 import './App.css'
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
                 <button type="button" onClick={() => void logout()}>
                     Cerrar sesión
                 </button>
+
+                <TaskForm />
+                <TaskList />
             </section>
 
             <div className="ticks"></div>
