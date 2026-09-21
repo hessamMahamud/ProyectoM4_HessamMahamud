@@ -1,5 +1,8 @@
 {
-    "projects": {
-        "default": "proyectom4hessammahamud"
-    }
+  "projects": {
+    "default": "proyectom4hessammahamud",
+    "taskManagerM4": "proyectom4hessammahamud"
+  },
+  "targets": {},
+  "etags": {}
 }
