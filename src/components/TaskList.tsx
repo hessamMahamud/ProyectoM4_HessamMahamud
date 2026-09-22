@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Check } from 'lucide-react'
 import type { ReactElement } from 'react'
 import type { Task } from '../hooks/useTasks'
 import './TaskList.css'
@@ -105,7 +106,7 @@ export default function TaskList({
                                 <div className="task-time" aria-label={`Creada a las ${formatTaskTime(task)}`}>{formatTaskTime(task)}</div>
                                 <div className="task-timeline-track" aria-hidden="true">
                                     <span className="task-node">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                        <Check size={13} strokeWidth={2.3} />
                                     </span>
                                 </div>
 
@@ -125,7 +126,7 @@ export default function TaskList({
                                                 <div className="custom-checkbox-wrapper">
                                                     <input type="checkbox" className="custom-checkbox-input" checked={task.completed} onChange={() => void toggleCompleted(task)} aria-label={`Completar tarea: ${task.title}`} />
                                                     <div className="custom-checkbox-box">
-                                                        <svg className="custom-checkbox-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                                        <Check className="custom-checkbox-check" size={14} strokeWidth={3} />
                                                     </div>
                                                 </div>
                                                 <div className="task-text-group">

@@ -1,3 +1,4 @@
+import { Calendar } from 'lucide-react'
 import TaskList from '../../components/TaskList.tsx'
 import type { Task } from '../../hooks/useTasks'
 import './TodayPage.css'
@@ -55,10 +56,7 @@ export default function TodayPage({
                     <h2>Hoy y <span className="highlight-orange">Tareas</span></h2>
                 </div>
                 <div className="date-selector" aria-label={`Fecha de hoy: ${todayLabel}`}>
-                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="4" width="18" height="17" rx="3" />
-                        <path d="M16 2v4M8 2v4M3 9h18" />
-                    </svg>
+                    <Calendar size={18} strokeWidth={1.8} aria-hidden="true" />
                     <span>{todayLabel}</span>
                 </div>
             </header>
