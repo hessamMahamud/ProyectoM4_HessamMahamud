@@ -17,9 +17,33 @@ service cloud.firestore {
 
       allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
     }
+
+    match /habits/{habitId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && isValidHabit(request.resource.data);
+
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && isValidHabit(request.resource.data);
+
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
   }
 
   function isSignedIn() {
     return request.auth != null;
+  }
+
+  function isValidHabit(habit) {
+    return habit.title is string
+      && habit.type is string
+      && habit.type in ['build', 'quit']
+      && habit.completed is bool
+      && habit.userId is string
+      && habit.createdAt is timestamp;
   }
 }
