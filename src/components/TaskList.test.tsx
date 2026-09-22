@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Task } from '../hooks/useTasks'
-import TaskList from './TaskList'
+import TaskList, { getPendingTone } from './TaskList'
 
 const tasks: Task[] = [
     {
@@ -45,6 +45,13 @@ describe('TaskList', () => {
             saveEdit={saveEdit}
         />,
     )
+
+    it('mantiene el tono de una tarea según su id', () => {
+        const tone = getPendingTone('task-stable-id')
+
+        expect(getPendingTone('task-stable-id')).toBe(tone)
+        expect(['tone-cyan', 'tone-lilac']).toContain(tone)
+    })
 
     it('renderiza los títulos recibidos por props', () => {
         renderTaskList()
