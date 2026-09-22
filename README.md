@@ -9,6 +9,7 @@ SPA de gestión de tareas con autenticación de usuarios, persistencia en la nub
 ## Stack tecnológico
 
 - **Frontend:** React + TypeScript + Vite
+- **Navegación:** React Router (`/task`, `/habits`, `/stats` y `/profile`)
 - **Backend as a Service:** Firebase (Authentication + Firestore)
 - **Notificaciones:** AWS SES, vía Vercel Serverless Function
 - **Deploy:** Vercel
@@ -40,7 +41,7 @@ src/
 │   └── useTasks.ts    # Toda la lógica de Firestore para tareas (CRUD + suscripción)
 ├── services/
 │   └── firebase.ts    # Inicialización única de Firebase (single source of truth)
-└── App.tsx            # Orquesta auth, tabs y layout general
+└── App.tsx            # Orquesta auth, rutas y layout general
 
 api/
 └── send-task-summary.ts   # Función serverless: valida payload y envía email vía AWS SES

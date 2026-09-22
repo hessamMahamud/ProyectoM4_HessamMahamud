@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from './features/auth/Authenticator.tsx'
 import LoginForm from './components/LoginForm.tsx'
 import useTasks from './hooks/useTasks'
@@ -14,11 +15,24 @@ import type { Tab } from './components/shell/types'
 import './components/shell/Loading.css'
 import './App.css'
 
+const TAB_PATHS: Record<Tab, string> = {
+    today: '/task',
+    habits: '/habits',
+    stats: '/stats',
+    profile: '/profile',
+};
+
+function getTabFromPath(pathname: string): Tab {
+    const tab = (Object.entries(TAB_PATHS) as [Tab, string][]).find(([, path]) => path === pathname)?.[0];
+    return tab || 'today';
+}
+
 function App() {
     const { user, loading, logout } = useAuth();
     const { tasks, loading: tasksLoading, error: tasksError, toggleCompleted, deleteTask, saveEdit } = useTasks(user?.uid);
+    const location = useLocation();
+    const navigate = useNavigate();
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
-    const [activeTab, setActiveTab] = useState<Tab>('today');
     const [summaryStatus, setSummaryStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
     const [sendingSummary, setSendingSummary] = useState(false);
 
@@ -82,6 +96,8 @@ function App() {
     if (!user) return <LoginForm />;
 
     const userName = user.displayName || user.email?.split('@')[0] || 'Viajero';
+    const activeTab = getTabFromPath(location.pathname);
+    const handleTabChange = (tab: Tab) => navigate(TAB_PATHS[tab]);
     const closeTaskModal = () => setIsTaskModalOpen(false);
 
     return (
@@ -90,7 +106,7 @@ function App() {
                 userName={userName}
                 userEmail={user.email}
                 activeTab={activeTab}
-                onTabChange={setActiveTab}
+                onTabChange={handleTabChange}
                 onOpenModal={() => setIsTaskModalOpen(true)}
                 onLogout={() => void logout()}
                 onSendSummary={() => void sendTaskSummary()}
@@ -102,41 +118,44 @@ function App() {
                 <Header userName={userName} onLogout={() => void logout()} />
 
                 <div className="app-view">
-                    {activeTab === 'today' && (
-                        <TodayPage
-                            completed={taskStats.completed}
-                            total={taskStats.total}
-                            tasks={tasks}
-                            tasksLoading={tasksLoading}
-                            tasksError={tasksError}
-                            toggleCompleted={toggleCompleted}
-                            deleteTask={deleteTask}
-                            saveEdit={saveEdit}
-                            onSendSummary={() => void sendTaskSummary()}
-                            sendingSummary={sendingSummary}
-                            summaryStatus={summaryStatus}
-                        />
-                    )}
-                    {activeTab === 'stats' && (
-                        <StatsPage
-                            completed={taskStats.completed}
-                            total={taskStats.total}
-                            tasks={tasks.map((task) => ({
-                                title: task.title,
-                                description: task.description,
-                                completed: task.completed,
-                            }))}
-                            recipient={user.email || ''}
-                        />
-                    )}
-                    {activeTab === 'habits' && <HabitsPage />}
-                    {activeTab === 'profile' && <ProfilePage user={user} />}
+                    <Routes>
+                        <Route path="/task" element={
+                            <TodayPage
+                                completed={taskStats.completed}
+                                total={taskStats.total}
+                                tasks={tasks}
+                                tasksLoading={tasksLoading}
+                                tasksError={tasksError}
+                                toggleCompleted={toggleCompleted}
+                                deleteTask={deleteTask}
+                                saveEdit={saveEdit}
+                                onSendSummary={() => void sendTaskSummary()}
+                                sendingSummary={sendingSummary}
+                                summaryStatus={summaryStatus}
+                            />
+                        } />
+                        <Route path="/stats" element={
+                            <StatsPage
+                                completed={taskStats.completed}
+                                total={taskStats.total}
+                                tasks={tasks.map((task) => ({
+                                    title: task.title,
+                                    description: task.description,
+                                    completed: task.completed,
+                                }))}
+                                recipient={user.email || ''}
+                            />
+                        } />
+                        <Route path="/habits" element={<HabitsPage />} />
+                        <Route path="/profile" element={<ProfilePage user={user} />} />
+                        <Route path="*" element={<Navigate to="/task" replace />} />
+                    </Routes>
                 </div>
             </main>
 
             <BottomNav
                 activeTab={activeTab}
-                onTabChange={setActiveTab}
+                onTabChange={handleTabChange}
                 onOpenModal={() => setIsTaskModalOpen(true)}
             />
             <Modal isOpen={isTaskModalOpen} onClose={closeTaskModal} />
