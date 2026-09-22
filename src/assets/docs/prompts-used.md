@@ -154,3 +154,87 @@ Necesito limpiar los botones de logout duplicados en la app.
 
 Muéstrame los archivos modificados.
 ```
+
+## 8. Setup de Vitest + React Testing Library
+
+**Contexto:** preparar la configuración de testing antes de escribir ningún test, para no mezclar setup con contenido.
+
+```
+Necesito configurar Vitest y React Testing Library en este proyecto (Vite + React + TypeScript).
+
+1. Instala como devDependencies: vitest, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event, jsdom, @vitest/ui (opcional pero inclúyelo).
+2. Configura vite.config.ts (o crea vitest.config.ts) con: environment: 'jsdom', globals: true, setupFiles apuntando a src/test/setup.ts.
+3. Crea src/test/setup.ts que importe '@testing-library/jest-dom' para los matchers extendidos (toBeInTheDocument, etc).
+4. Agrega scripts en package.json: "test": "vitest run", "test:watch": "vitest".
+5. Verifica que tsconfig.app.json tenga los types necesarios para que TypeScript reconozca los globals de Vitest (describe, it, expect) sin necesidad de importarlos en cada archivo.
+
+No agregues ningún test todavía, solo la configuración. Confirma al final que `npm run test` corre sin errores (aunque no haya tests aún, no debe fallar).
+```
+
+## 9. Tests de TaskForm, TaskList, LoginForm y la función serverless
+
+**Contexto:** cobertura de comportamiento y casos borde sobre los 4 puntos más críticos del proyecto, priorizando calidad de los mocks sobre cantidad de tests.
+
+```
+Necesito escribir tests con Vitest + React Testing Library para este proyecto. Prioriza cobertura de comportamiento y casos borde, no cantidad. Escribe estos tests concretos:
+
+1. src/components/TaskForm.test.tsx:
+   - No permite enviar el formulario si el título está vacío (mockea addDoc de 'firebase/firestore' con vi.mock, y verifica que NO se llama si el título es vacío/solo espacios).
+   - Sí llama a addDoc con los datos correctos cuando el título es válido.
+   - Muestra un mensaje de error si addDoc rechaza la promesa (simula un error).
+
+2. src/components/TaskList.test.tsx:
+   - Dado un array de tareas por props, renderiza correctamente los títulos.
+   - Al hacer click en el checkbox de una tarea, se llama a la prop toggleCompleted con la tarea correcta.
+   - Al hacer click en "Eliminar", se llama a deleteTask con el id correcto.
+   - Cambiar el filtro (Pendientes/Completadas) oculta las tareas que no correspondan.
+   - Muestra el estado vacío ("Todo al día...") cuando el array de tareas filtrado queda en 0.
+   (TaskList ya es presentacional, recibe todo por props — no necesitas mockear Firestore aquí, solo pasar props de prueba.)
+
+3. src/components/LoginForm.test.tsx:
+   - Mockea el hook useAuth (vi.mock de la ruta correspondiente) para simular signIn/signUp/signInWithGoogle.
+   - Alternar entre modo login y registro cambia el texto del formulario y del botón.
+   - Si signIn rechaza la promesa, se muestra el mensaje de error correspondiente.
+
+4. api/send-task-summary.test.ts:
+   - Mockea SESClient/SendEmailCommand de '@aws-sdk/client-ses' con vi.mock.
+   - Devuelve 405 si el método no es POST.
+   - Devuelve 400 si el email del recipient es inválido o si tasks no es un array válido.
+   - Devuelve 200 y llama a SESClient.send() exactamente una vez cuando el payload es válido.
+
+Usa vi.fn() y vi.mock() de Vitest para todos los mocks (no instales librerías de mocking adicionales). Sigue la convención de imports type-only (verbatimModuleSyntax) ya usada en el proyecto. Al final, confirma que `npm run test` pasa todos los tests sin errores.
+```
+
+## 10. Test faltante: rechazo de AWS SES
+
+**Contexto:** la rúbrica pide explícitamente cubrir "error del serverless" como caso borde — faltaba simular el escenario real que se vivió en producción (SES rechazando el envío).
+
+```
+Necesito agregar un test que falta en api/send-task-summary.test.ts: el caso donde AWS SES rechaza el envío (simula el error real de producción que ya vimos: SignatureDoesNotMatch o MessageRejected).
+
+Agrega este test al describe existente:
+
+it('devuelve 500 si AWS SES rechaza el envío', async () => {
+  // usa sendMock.mockRejectedValueOnce con un Error simulando el rechazo de SES
+  // llama al handler con un payload válido (igual al del test de éxito)
+  // verifica que:
+  //   - se llame a response.status con 500
+  //   - se llame a response.json con { error: 'No se pudo enviar el resumen.' }
+  //   - console.error haya sido llamado (opcional: usa vi.spyOn(console, 'error') para verificarlo, y restáuralo después)
+})
+
+No modifiques los tests existentes, solo agrega este caso al mismo archivo.
+```
+
+## 11. Tests adicionales de LoginForm (registro y Google)
+
+**Contexto:** extra opcional aprovechando tiempo disponible antes de la entrega — cubrir los dos flujos de `LoginForm` que no tenían test todavía.
+
+```
+Agrega 2 tests más a src/components/LoginForm.test.tsx:
+
+1. En modo registro, enviar el formulario llama a signUp (no a signIn) con el email y password correctos.
+2. Al hacer click en "Continuar con Google", se llama a signInWithGoogle.
+
+Sigue el mismo patrón de mocks ya usado en el archivo (signInMock, signUpMock, signInWithGoogleMock ya están declarados con vi.hoisted).
+```

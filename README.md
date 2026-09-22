@@ -68,7 +68,18 @@ firebase deploy --only firestore:rules
 
 ## Testing
 
-*(Sección en progreso — pendiente al momento de este README)*
+17 tests con Vitest + React Testing Library, en 4 archivos:
+
+- **`TaskForm.test.tsx`** (4 tests) — no envía el formulario con título vacío/solo espacios, envía los datos correctos (con trim) cuando el título es válido, y muestra el mensaje de error si `addDoc` rechaza la promesa. Mockea `firebase/firestore` y `useAuth`.
+- **`TaskList.test.tsx`** (5 tests) — renderiza tareas recibidas por props, notifica la tarea correcta al marcar el checkbox, elimina con el id correcto, filtra pendientes/completadas, y muestra el estado vacío cuando el filtro no tiene resultados. Al ser un componente presentacional, no requiere mocks de Firestore.
+- **`LoginForm.test.tsx`** (4 tests) — alterna entre modo login/registro, muestra error si `signIn` rechaza la promesa, llama a `signUp` (no a `signIn`) en modo registro, y llama a `signInWithGoogle` al continuar con Google. Mockea el hook `useAuth`.
+- **`send-task-summary.test.ts`** (4 tests) — rechaza métodos distintos a POST (405), rechaza payloads inválidos (400, incluyendo email mal formado y `tasks` que no es un array), envía el email correctamente con payload válido (200), y devuelve 500 cuando AWS SES rechaza el envío (simulando el error real de producción encontrado durante el desarrollo). Mockea `@aws-sdk/client-ses`.
+
+```
+npm run test
+```
+
+Ver `assets-docs/prompts-used.md` para los prompts usados en la configuración y escritura de estos tests.
 
 ## Uso de IA en el desarrollo
 
@@ -76,7 +87,7 @@ Este proyecto se construyó con dos asistentes de IA cumpliendo roles distintos 
 
 **El agente de Antigravity IDE** (requisito de este módulo) generó la mayoría del código fuente: el Context de autenticación, los componentes de formularios y listas, el hook `useTasks`, la función serverless de AWS SES, las reglas de Firestore y los estilos. Trabajó a partir de prompts específicos, no de instrucciones vagas tipo "hazme un login".
 
-**Claude** funcionó como mi asistente de código de cabecera durante todo el proyecto: el que explicaba primero el *qué* y el *por qué* de cada concepto (hooks, Context API, verbatimModuleSyntax, arquitectura mobile-first) antes de tocar código. Redacté (con apoyo de Claude para afinar la redacción técnica) cada prompt que dirigí al agente de Antigravity, y revisé con Claude cada entrega antes de aceptarla en el proyecto — el listado completo de esos prompts, en orden y con el contexto de qué resolvía cada uno, está en [Prompts used](./src/assets/docs/prompts-used.md)
+**Claude** funcionó como mi asistente de código de cabecera durante todo el proyecto: el que explicaba primero el *qué* y el *por qué* de cada concepto (hooks, Context API, verbatimModuleSyntax, arquitectura mobile-first) antes de tocar código. Redacté (con apoyo de Claude para afinar la redacción técnica) cada prompt que dirigí al agente de Antigravity, y revisé con Claude cada entrega antes de aceptarla en el proyecto — el listado completo de esos prompts, en orden y con el contexto de qué resolvía cada uno, está en [Prompt Used](src/assets/docs/prompts-used.md).
 
 Ejemplos concretos de bugs reales que esa revisión detectó antes de que llegaran a producción:
 
