@@ -41,8 +41,27 @@ export default function TodayPage({
         return 'Paso a paso, cada avance suma a tu bienestar diario. ⚡';
     };
 
+    const todayLabel = new Intl.DateTimeFormat('es-ES', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+    }).format(new Date());
+
     return (
         <div className="today-page">
+            <header className="today-heading">
+                <div>
+                    <span className="today-eyebrow">Tu agenda de hoy</span>
+                    <h2>Hoy y <span className="highlight-orange">Tareas</span></h2>
+                </div>
+                <div className="date-selector" aria-label={`Fecha de hoy: ${todayLabel}`}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="4" width="18" height="17" rx="3" />
+                        <path d="M16 2v4M8 2v4M3 9h18" />
+                    </svg>
+                    <span>{todayLabel}</span>
+                </div>
+            </header>
             <section className="progress-card-dark" aria-label="Progreso del día">
                 <div className="progress-card-info">
                     <span className="progress-badge">🌿 Enfoque Diario</span>

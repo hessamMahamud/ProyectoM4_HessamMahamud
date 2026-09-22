@@ -1,12 +1,53 @@
 .today-page {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 18px;
+}
+
+.today-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.today-eyebrow {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.today-heading h2 {
+    color: var(--text-white);
+    font-size: 1.45rem;
+    line-height: 1.2;
+}
+
+.date-selector {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 150px;
+    color: var(--text-light);
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-align: right;
+}
+
+.date-selector svg {
+    width: 18px;
+    min-width: 18px;
+    color: var(--accent-orange);
 }
 
 .progress-card-dark {
-    background-color: var(--surface-dark);
-    border-radius: var(--radius-card);
+    background-color: #252E50;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 26px;
     padding: 24px;
     color: var(--text-white);
     box-shadow: var(--shadow-dark);
@@ -25,7 +66,7 @@
     right: -40px;
     width: 130px;
     height: 130px;
-    background: radial-gradient(circle, rgba(245, 166, 35, 0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(111, 211, 232, 0.2) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
 }
@@ -42,7 +83,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.1);
     color: var(--accent-orange);
     font-size: 0.75rem;
     font-weight: 600;
@@ -54,7 +95,7 @@
 }
 
 .progress-title {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--text-white);
     margin: 0;
@@ -129,9 +170,13 @@
 @media (min-width: 768px) {
     .today-page {
         display: grid;
-        grid-template-columns: 340px minmax(0, 1fr);
+        grid-template-columns: 300px minmax(0, 1fr);
         gap: 32px;
         align-items: start;
+    }
+
+    .today-heading {
+        grid-column: 1 / -1;
     }
 
     .progress-card-dark {

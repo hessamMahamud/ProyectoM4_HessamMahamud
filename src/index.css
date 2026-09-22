@@ -1,91 +1,98 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Paleta Wellness / Coach */
-  --bg-primary: #F2ECE4;
-  --surface-dark: #1B3C4A;
-  --surface-card: #FFFFFF;
-  --surface-card-subtle: #F9F7F4;
-  --accent-orange: #F5A623;
-  --accent-orange-hover: #E0961B;
-  --accent-orange-soft: rgba(245, 166, 35, 0.15);
-  --accent-orange-glow: rgba(245, 166, 35, 0.35);
-  
-  /* Textos */
-  --text-dark: #1B3C4A;
-  --text-muted: #5C7682;
-  --text-light: #F2ECE4;
-  --text-white: #FFFFFF;
+    /* Paleta timeline navy */
+    --bg-primary: #1B2340;
+    --surface-dark: #11182F;
+    --surface-card: #6FD3E8;
+    --surface-card-subtle: #273158;
+    --accent-orange: #F5A623;
+    --accent-orange-hover: #E0961B;
+    --accent-orange-soft: rgba(245, 166, 35, 0.15);
+    --accent-orange-glow: rgba(245, 166, 35, 0.35);
 
-  /* Formas y Bordes */
-  --radius-card: 24px;
-  --radius-item: 20px;
-  --radius-input: 20px;
-  --radius-btn: 20px;
-  --radius-pill: 9999px;
+    /* Textos */
+    --text-dark: #F7F8FC;
+    --text-muted: #B7C0D7;
+    --text-light: #E8ECF6;
+    --text-white: #FFFFFF;
 
-  /* Sombras */
-  --shadow-soft: 0 8px 24px rgba(27, 60, 74, 0.08);
-  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.06);
-  --shadow-card-hover: 0 12px 32px rgba(27, 60, 74, 0.12);
-  --shadow-dark: 0 12px 32px rgba(27, 60, 74, 0.25);
-  --shadow-floating: 0 10px 24px rgba(245, 166, 35, 0.38);
+    /* Formas y Bordes */
+    --radius-card: 24px;
+    --radius-item: 20px;
+    --radius-input: 20px;
+    --radius-btn: 20px;
+    --radius-pill: 9999px;
 
-  /* Tipografía */
-  --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Sombras */
+    --shadow-soft: 0 8px 24px rgba(4, 8, 24, 0.2);
+    --shadow-card: 0 10px 24px rgba(4, 8, 24, 0.18);
+    --shadow-card-hover: 0 14px 32px rgba(4, 8, 24, 0.28);
+    --shadow-dark: 0 12px 32px rgba(4, 8, 24, 0.35);
+    --shadow-floating: 0 10px 24px rgba(245, 166, 35, 0.38);
 
-  font: 16px/150% var(--font-family);
-  color: var(--text-dark);
-  background-color: var(--bg-primary);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    /* Tipografía */
+    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    font: 16px/150% var(--font-family);
+    color: var(--text-dark);
+    background-color: var(--bg-primary);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-primary);
-  color: var(--text-dark);
-  font-family: var(--font-family);
-  min-height: 100vh;
-  min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-dark);
+    font-family: var(--font-family);
+    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 #root {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-primary);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
 }
 
 /* Tipografía base */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family);
-  color: var(--text-dark);
-  font-weight: 700;
-  line-height: 1.25;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-family);
+    color: var(--text-dark);
+    font-weight: 700;
+    line-height: 1.25;
 }
 
 p {
-  color: var(--text-muted);
+    color: var(--text-muted);
 }
 
 button {
-  font-family: var(--font-family);
-  cursor: pointer;
-  border: none;
-  outline: none;
-  transition: all 0.2s ease-in-out;
+    font-family: var(--font-family);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.2s ease-in-out;
 }
 
-input, textarea, select {
-  font-family: var(--font-family);
+input,
+textarea,
+select {
+    font-family: var(--font-family);
 }
