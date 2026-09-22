@@ -45,7 +45,7 @@
 
 .form-input:focus,
 .form-textarea:focus {
-    background-color: #FFFFFF;
+    background-color: var(--surface-card-subtle);
     border-color: var(--accent-orange);
     box-shadow: 0 0 0 4px var(--accent-orange-soft);
 }
@@ -82,8 +82,8 @@
 }
 
 .btn-pill-secondary {
-    background-color: #EAE4DC;
-    color: var(--text-dark);
+    background-color: var(--surface-card-subtle);
+    color: var(--text-light);
     border-radius: var(--radius-pill);
     padding: 10px 20px;
     font-size: 0.9rem;
@@ -92,7 +92,7 @@
 }
 
 .btn-pill-secondary:hover {
-    background-color: #DCD5CB;
+    background-color: var(--surface-card);
 }
 
 @media (min-width: 768px) {

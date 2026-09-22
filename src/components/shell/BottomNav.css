@@ -4,12 +4,12 @@
     left: 0;
     right: 0;
     height: 72px;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(37, 46, 80, 0.96);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-top-left-radius: 26px;
     border-top-right-radius: 26px;
-    box-shadow: 0 -4px 24px rgba(27, 60, 74, 0.08);
+    box-shadow: 0 -4px 24px rgba(4, 8, 24, 0.35);
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -32,7 +32,7 @@
 }
 
 .nav-item-btn.active {
-    color: var(--surface-dark);
+    color: var(--text-white);
     font-weight: 600;
 }
 

@@ -13,7 +13,7 @@
 }
 
 .habit-score-chip strong {
-    color: var(--surface-dark);
+    color: var(--text-light);
     font-size: 1.05rem;
 }
 
@@ -94,7 +94,7 @@
     place-items: center;
     border-radius: 50%;
     background: var(--accent-orange-soft);
-    color: var(--surface-dark);
+    color: var(--text-light);
     font-size: 0.75rem;
     font-weight: 700;
 }
@@ -111,7 +111,7 @@
     gap: 12px;
     min-height: 64px;
     padding: 10px 12px;
-    border: 1px solid #F0EAE1;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: var(--radius-item);
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease;
@@ -134,7 +134,7 @@
     width: 24px;
     height: 24px;
     place-items: center;
-    border: 2px solid #C4BDB5;
+    border: 2px solid rgba(255, 255, 255, 0.42);
     border-radius: 8px;
     color: transparent;
     font-size: 0.8rem;

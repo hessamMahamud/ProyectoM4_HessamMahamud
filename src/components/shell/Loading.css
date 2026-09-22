@@ -1,5 +1,5 @@
 .app-loading-card {
-    background: #FFFFFF;
+    background: var(--surface-card);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-soft);
     width: 100%;

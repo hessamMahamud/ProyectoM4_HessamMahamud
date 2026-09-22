@@ -86,7 +86,7 @@
 .stats-summary-card,
 .feature-card {
     background: var(--surface-card);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
 }

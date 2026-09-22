@@ -9,7 +9,7 @@
 }
 
 .auth-card {
-    background: #FFFFFF;
+    background: var(--surface-card);
     border-radius: var(--radius-card);
     padding: 36px 28px;
     box-shadow: var(--shadow-soft);
@@ -56,9 +56,9 @@
 }
 
 .btn-google {
-    background: #FFFFFF;
-    color: var(--text-dark);
-    border: 1.5px solid #E2DBD2;
+    background: var(--surface-card-subtle);
+    color: var(--text-white);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
     border-radius: var(--radius-pill);
     padding: 12px 20px;
     font-size: 0.9rem;
@@ -71,8 +71,8 @@
 }
 
 .btn-google:hover {
-    background: #F8F5F0;
-    border-color: #D4CCC1;
+    background: var(--surface-dark);
+    border-color: var(--accent-orange);
 }
 
 .auth-toggle-btn {

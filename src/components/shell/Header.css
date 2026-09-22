@@ -31,21 +31,21 @@
 }
 
 .logout-icon-btn {
-    background: var(--surface-card);
+    background: var(--surface-card-subtle);
     box-shadow: var(--shadow-card);
     border-radius: var(--radius-pill);
     padding: 8px 14px;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--text-light);
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
 .logout-icon-btn:hover {
-    color: #D9534F;
-    background: #FFF5F5;
+    color: var(--text-white);
+    background: var(--accent-orange);
 }
 
 .sidebar-logout-btn {
