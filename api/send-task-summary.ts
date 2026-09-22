@@ -37,9 +37,12 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     const body = request.body as Partial<SummaryRequestBody> | undefined;
     const recipient = typeof body?.recipient === 'string' ? body.recipient.trim() : '';
-    const tasks = Array.isArray(body?.tasks) ? body.tasks : [];
+    const tasks = body?.tasks;
 
-    if (!emailPattern.test(recipient) || tasks.length > 100 || !tasks.every(isValidTask)) {
+    if (!emailPattern.test(recipient)
+        || !Array.isArray(tasks)
+        || tasks.length > 100
+        || !tasks.every(isValidTask)) {
         return response.status(400).json({ error: 'Los datos del resumen no son válidos.' });
     }
 
