@@ -171,12 +171,14 @@
 
     .sidebar-brand h2,
     .sidebar-brand p,
-    .sidebar-user-details,
-    .sidebar-nav-item,
-    .sidebar-cta-btn,
+    .sidebar-user-name,
+    .sidebar-user-role,
+    .sidebar-nav-item span,
+    .sidebar-cta-btn span,
+    .summary-email-button,
     .summary-email-status,
-    .sidebar-logout-btn {
-        font-size: 0;
+    .sidebar-logout-btn span {
+        display: none;
     }
 
     .sidebar-brand h2 {

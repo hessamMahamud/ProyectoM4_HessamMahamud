@@ -46,11 +46,11 @@ export default function DesktopSidebar({
                     {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
                         <button key={id} type="button" className={`sidebar-nav-item ${activeTab === id ? 'active' : ''}`} onClick={() => onTabChange(id)}>
                             <Icon width={20} height={20} strokeWidth={2} />
-                            {label}
+                            <span>{label}</span>
                         </button>
                     ))}
 
-                    <button type="button" className="btn-pill-primary sidebar-cta-btn" onClick={onOpenModal}>+ Nueva tarea</button>
+                    <button type="button" className="btn-pill-primary sidebar-cta-btn" onClick={onOpenModal}><span>+ Nueva tarea</span></button>
                     <button type="button" className="summary-email-button" onClick={onSendSummary} disabled={sendingSummary}>
                         {sendingSummary ? 'Enviando...' : 'Enviar resumen por email'}
                     </button>
@@ -69,7 +69,7 @@ export default function DesktopSidebar({
 
                 <button type="button" className="logout-icon-btn sidebar-logout-btn" onClick={onLogout}>
                     <LogOut size={16} strokeWidth={2} />
-                    Cerrar sesión
+                    <span>Cerrar sesión</span>
                 </button>
             </div>
         </aside>
