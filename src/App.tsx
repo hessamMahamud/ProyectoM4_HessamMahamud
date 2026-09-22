@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from './features/auth/Authenticator.tsx'
 import LoginForm from './components/LoginForm.tsx'
 import useTasks from './hooks/useTasks'
@@ -9,6 +9,7 @@ import BottomNav from './components/shell/BottomNav.tsx'
 import Modal from './components/shell/Modal.tsx'
 import type { Tab } from './components/shell/types'
 import AppRoutes from './routes/AppRoutes.tsx'
+import SecureRoute from './routes/SecureRoute.tsx'
 import './components/shell/Loading.css'
 import './App.css'
 
@@ -90,7 +91,16 @@ function App() {
         );
     }
 
-    if (!user) return <LoginForm />;
+    if (!user) {
+        return (
+            <Routes>
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+        );
+    }
+
+    if (location.pathname === '/login') return <Navigate to="/task" replace />;
 
     const userName = user.displayName || user.email?.split('@')[0] || 'Viajero';
     const activeTab = getTabFromPath(location.pathname);
@@ -98,46 +108,48 @@ function App() {
     const closeTaskModal = () => setIsTaskModalOpen(false);
 
     return (
-        <div className="app-shell">
-            <DesktopSidebar
-                userName={userName}
-                userEmail={user.email}
-                activeTab={activeTab}
-                onTabChange={handleTabChange}
-                onOpenModal={() => setIsTaskModalOpen(true)}
-                onLogout={() => void logout()}
-                onSendSummary={() => void sendTaskSummary()}
-                sendingSummary={sendingSummary}
-                summaryStatus={summaryStatus}
-            />
+        <SecureRoute>
+            <div className="app-shell">
+                <DesktopSidebar
+                    userName={userName}
+                    userEmail={user.email}
+                    activeTab={activeTab}
+                    onTabChange={handleTabChange}
+                    onOpenModal={() => setIsTaskModalOpen(true)}
+                    onLogout={() => void logout()}
+                    onSendSummary={() => void sendTaskSummary()}
+                    sendingSummary={sendingSummary}
+                    summaryStatus={summaryStatus}
+                />
 
-            <main className="app-content-wrapper">
-                <Header userName={userName} onLogout={() => void logout()} />
+                <main className="app-content-wrapper">
+                    <Header userName={userName} onLogout={() => void logout()} />
 
-                <div className="app-view">
-                    <AppRoutes
-                        user={user}
-                        tasks={tasks}
-                        tasksLoading={tasksLoading}
-                        tasksError={tasksError}
-                        completedTasks={taskStats.completed}
-                        onToggleCompleted={toggleCompleted}
-                        onDeleteTask={deleteTask}
-                        onSaveEdit={saveEdit}
-                        onSendSummary={() => void sendTaskSummary()}
-                        sendingSummary={sendingSummary}
-                        summaryStatus={summaryStatus}
-                    />
-                </div>
-            </main>
+                    <div className="app-view">
+                        <AppRoutes
+                            user={user}
+                            tasks={tasks}
+                            tasksLoading={tasksLoading}
+                            tasksError={tasksError}
+                            completedTasks={taskStats.completed}
+                            onToggleCompleted={toggleCompleted}
+                            onDeleteTask={deleteTask}
+                            onSaveEdit={saveEdit}
+                            onSendSummary={() => void sendTaskSummary()}
+                            sendingSummary={sendingSummary}
+                            summaryStatus={summaryStatus}
+                        />
+                    </div>
+                </main>
 
-            <BottomNav
-                activeTab={activeTab}
-                onTabChange={handleTabChange}
-                onOpenModal={() => setIsTaskModalOpen(true)}
-            />
-            <Modal isOpen={isTaskModalOpen} onClose={closeTaskModal} />
-        </div>
+                <BottomNav
+                    activeTab={activeTab}
+                    onTabChange={handleTabChange}
+                    onOpenModal={() => setIsTaskModalOpen(true)}
+                />
+                <Modal isOpen={isTaskModalOpen} onClose={closeTaskModal} />
+            </div>
+        </SecureRoute>
     );
 }
 
