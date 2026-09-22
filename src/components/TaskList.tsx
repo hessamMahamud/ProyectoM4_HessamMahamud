@@ -13,17 +13,6 @@ interface TaskListProps {
     saveEdit: (taskId: string, title: string, description: string) => Promise<boolean>;
 }
 
-const PENDING_TONES = ['tone-cyan', 'tone-lilac'] as const;
-
-export const getPendingTone = (taskId: string): typeof PENDING_TONES[number] => {
-    const characterSum = Array.from(taskId).reduce(
-        (sum, character) => sum + character.charCodeAt(0),
-        0,
-    );
-
-    return PENDING_TONES[characterSum % PENDING_TONES.length];
-};
-
 const formatTaskTime = (task: Task): string => {
     if (!task.createdAt) return '--:--';
 
@@ -110,10 +99,9 @@ export default function TaskList({
                 <ul className="task-list">
                     {visibleTasks.map((task) => {
                         const isEditing = editingTaskId === task.id;
-                        const pendingTone = getPendingTone(task.id);
 
                         return (
-                            <li key={task.id} className={`task-timeline-item ${task.completed ? 'is-completed' : pendingTone}`}>
+                            <li key={task.id} className={`task-timeline-item ${task.completed ? 'is-completed' : 'is-pending'}`}>
                                 <div className="task-time" aria-label={`Creada a las ${formatTaskTime(task)}`}>{formatTaskTime(task)}</div>
                                 <div className="task-timeline-track" aria-hidden="true">
                                     <span className="task-node">

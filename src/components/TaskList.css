@@ -142,14 +142,9 @@
     color: #17233B;
 }
 
-.task-timeline-item.tone-cyan .task-node {
+.task-timeline-item.is-pending .task-node {
     border-color: #6FD3E8;
     color: #6FD3E8;
-}
-
-.task-timeline-item.tone-lilac .task-node {
-    border-color: #C9B8E8;
-    color: #C9B8E8;
 }
 
 .task-card {
@@ -162,14 +157,9 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.task-timeline-item.tone-cyan .task-card {
+.task-timeline-item.is-pending .task-card {
     background: #6FD3E8;
     color: #18233D;
-}
-
-.task-timeline-item.tone-lilac .task-card {
-    background: #C9B8E8;
-    color: #22223D;
 }
 
 .task-timeline-item.is-completed .task-card {
