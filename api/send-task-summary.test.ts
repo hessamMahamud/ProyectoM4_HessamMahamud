@@ -71,4 +71,24 @@ describe('send-task-summary', () => {
         expect(sendEmailCommandMock).toHaveBeenCalledOnce()
         expect(sendMock).toHaveBeenCalledOnce()
     })
+
+    it('devuelve 500 si AWS SES rechaza el envío', async () => {
+        const { response, statusMock, jsonMock } = createResponse()
+        const body = {
+            recipient: 'persona@example.com',
+            tasks: [{ title: 'Leer', description: '20 páginas', completed: false }],
+        }
+        const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => { })
+        sendMock.mockRejectedValueOnce(new Error('MessageRejected: Email address is not verified'))
+
+        try {
+            await handler(createRequest(body), response)
+
+            expect(statusMock).toHaveBeenCalledWith(500)
+            expect(jsonMock).toHaveBeenCalledWith({ error: 'No se pudo enviar el resumen.' })
+            expect(consoleErrorSpy).toHaveBeenCalled()
+        } finally {
+            consoleErrorSpy.mockRestore()
+        }
+    })
 })
