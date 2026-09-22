@@ -1,0 +1,237 @@
+.desktop-sidebar {
+    display: none;
+}
+
+.user-avatar-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--surface-card);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--surface-dark);
+    font-weight: 600;
+    border: 2px solid #FFFFFF;
+}
+
+.summary-email-button {
+    background-color: var(--accent-orange);
+    color: var(--text-white);
+    border-radius: var(--radius-pill);
+    padding: 9px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.summary-email-button:hover:not(:disabled) {
+    background-color: var(--accent-orange-hover);
+    transform: translateY(-1px);
+}
+
+.summary-email-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.summary-email-status {
+    margin: 0;
+    font-size: 0.78rem;
+}
+
+.summary-email-status.success {
+    color: #B7E4C7;
+}
+
+.summary-email-status.error {
+    color: #FFD0CC;
+}
+
+@media (min-width: 768px) {
+    .desktop-sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 270px;
+        min-width: 270px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        background: #FFFFFF;
+        padding: 32px 24px;
+        box-shadow: 4px 0 24px rgba(27, 60, 74, 0.04);
+        z-index: 10;
+    }
+
+    .sidebar-top {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .sidebar-brand h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .sidebar-brand p {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .sidebar-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: var(--radius-item);
+        background: transparent;
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        text-align: left;
+    }
+
+    .sidebar-nav-item.active {
+        background: var(--surface-card-subtle);
+        color: var(--surface-dark);
+    }
+
+    .sidebar-nav-item.active svg {
+        stroke: var(--accent-orange);
+    }
+
+    .sidebar-nav-item:hover:not(.active) {
+        background: #FAF8F5;
+        color: var(--text-dark);
+    }
+
+    .sidebar-cta-btn {
+        margin-top: 12px;
+        width: 100%;
+    }
+
+    .sidebar-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border-top: 1px solid #F0EAE1;
+        padding-top: 20px;
+    }
+
+    .sidebar-user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .sidebar-user-details {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .sidebar-user-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .sidebar-user-role {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    .summary-email-button {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .desktop-sidebar {
+        width: 88px;
+        min-width: 88px;
+        align-items: center;
+        padding: 24px 12px;
+    }
+
+    .sidebar-brand h2,
+    .sidebar-brand p,
+    .sidebar-user-details,
+    .sidebar-nav-item,
+    .sidebar-cta-btn,
+    .summary-email-status,
+    .sidebar-logout-btn {
+        font-size: 0;
+    }
+
+    .sidebar-brand h2 {
+        line-height: 1;
+    }
+
+    .sidebar-top,
+    .sidebar-nav,
+    .sidebar-bottom {
+        width: 100%;
+        align-items: center;
+    }
+
+    .sidebar-nav-item {
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        padding: 12px;
+    }
+
+    .sidebar-nav-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .sidebar-cta-btn {
+        min-width: 52px;
+        width: 52px;
+        height: 44px;
+        padding: 8px;
+    }
+
+    .sidebar-cta-btn::before {
+        content: '+';
+        font-size: 1.35rem;
+        line-height: 1;
+    }
+
+    .summary-email-button {
+        display: none;
+    }
+
+    .sidebar-user-info {
+        justify-content: center;
+    }
+
+    .sidebar-logout-btn {
+        min-width: 52px;
+        width: 52px;
+        height: 40px;
+        padding: 8px;
+    }
+
+    .sidebar-logout-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+}

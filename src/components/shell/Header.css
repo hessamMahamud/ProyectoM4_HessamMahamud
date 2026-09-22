@@ -1,0 +1,60 @@
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 4px 0;
+}
+
+.header-greeting h1 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-dark);
+}
+
+.header-greeting p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.highlight-orange {
+    color: var(--accent-orange);
+    font-weight: 700;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logout-icon-btn {
+    background: var(--surface-card);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-pill);
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logout-icon-btn:hover {
+    color: #D9534F;
+    background: #FFF5F5;
+}
+
+.sidebar-logout-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .app-header .logout-icon-btn {
+        display: none;
+    }
+}

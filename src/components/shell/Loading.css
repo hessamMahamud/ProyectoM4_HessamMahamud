@@ -1,0 +1,22 @@
+.app-loading-card {
+    background: #FFFFFF;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    width: 100%;
+    max-width: 320px;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+}
+
+.loading-card-icon {
+    font-size: 2rem;
+}
+
+.loading-card-message {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-top: 8px;
+}
