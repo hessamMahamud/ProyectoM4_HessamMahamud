@@ -262,3 +262,24 @@
         padding: 36px 20px;
     }
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .tasks-section-header {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+    }
+
+    .task-card-content {
+        flex-wrap: wrap;
+    }
+
+    .task-main-info {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .task-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

@@ -649,7 +649,7 @@
     /* Contenedor principal en escritorio */
     .app-content-wrapper {
         max-width: 1200px;
-        margin: 0;
+        margin: 0 auto;
         padding: 36px 48px;
     }
 
@@ -698,5 +698,95 @@
         border-radius: 30px;
         max-width: 480px;
         animation: fadeIn 0.25s ease-out;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .desktop-sidebar {
+        width: 88px;
+        min-width: 88px;
+        align-items: center;
+        padding: 24px 12px;
+    }
+
+    .sidebar-brand h2,
+    .sidebar-brand p,
+    .sidebar-user-details,
+    .sidebar-nav-item,
+    .sidebar-cta-btn,
+    .summary-email-status,
+    .sidebar-logout-btn {
+        font-size: 0;
+    }
+
+    .sidebar-brand h2 {
+        line-height: 1;
+    }
+
+    .sidebar-top,
+    .sidebar-nav,
+    .sidebar-bottom {
+        width: 100%;
+        align-items: center;
+    }
+
+    .sidebar-nav-item {
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        padding: 12px;
+    }
+
+    .sidebar-nav-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .sidebar-cta-btn,
+    .sidebar-cta-btn {
+        min-width: 52px;
+        width: 52px;
+        height: 44px;
+        padding: 8px;
+    }
+
+    .sidebar-cta-btn::before {
+        content: '+';
+        font-size: 1.35rem;
+        line-height: 1;
+    }
+
+    .summary-email-button {
+        display: none;
+    }
+
+    .sidebar-user-info {
+        justify-content: center;
+    }
+
+    .sidebar-logout-btn {
+        min-width: 52px;
+        width: 52px;
+        height: 40px;
+        padding: 8px;
+    }
+
+    .sidebar-logout-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .app-content-wrapper {
+        min-width: 0;
+        padding: 24px;
+    }
+
+    .dashboard-layout,
+    .today-page {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .progress-card-dark {
+        position: static;
     }
 }

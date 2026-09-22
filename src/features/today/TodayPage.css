@@ -12,3 +12,9 @@
         align-items: start;
     }
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .today-page {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
