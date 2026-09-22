@@ -50,4 +50,26 @@ describe('LoginForm', () => {
         expect(await screen.findByText('Credenciales incorrectas')).toBeInTheDocument()
         expect(signInMock).toHaveBeenCalledWith('persona@example.com', 'incorrecta')
     })
+
+    it('en modo registro llama a signUp con el email y password correctos', async () => {
+        const user = userEvent.setup()
+        render(<LoginForm />)
+
+        await user.click(screen.getByRole('button', { name: '¿No tienes cuenta? Regístrate gratis' }))
+        await user.type(screen.getByPlaceholderText('Correo electrónico'), 'nueva@example.com')
+        await user.type(screen.getByPlaceholderText('Contraseña'), 'password-seguro')
+        await user.click(screen.getByRole('button', { name: 'Crear mi cuenta' }))
+
+        expect(signUpMock).toHaveBeenCalledWith('nueva@example.com', 'password-seguro')
+        expect(signInMock).not.toHaveBeenCalled()
+    })
+
+    it('llama a signInWithGoogle al continuar con Google', async () => {
+        const user = userEvent.setup()
+        render(<LoginForm />)
+
+        await user.click(screen.getByRole('button', { name: 'Continuar con Google' }))
+
+        expect(signInWithGoogleMock).toHaveBeenCalledOnce()
+    })
 })
