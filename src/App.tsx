@@ -1,17 +1,14 @@
 import { useState } from 'react'
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from './features/auth/Authenticator.tsx'
 import LoginForm from './components/LoginForm.tsx'
 import useTasks from './hooks/useTasks'
-import TodayPage from './features/today/TodayPage.tsx'
-import StatsPage from './features/stats/StatsPage.tsx'
-import HabitsPage from './features/habits/HabitsPage.tsx'
-import ProfilePage from './features/profile/ProfilePage.tsx'
 import Header from './components/shell/Header.tsx'
 import DesktopSidebar from './components/shell/DesktopSidebar.tsx'
 import BottomNav from './components/shell/BottomNav.tsx'
 import Modal from './components/shell/Modal.tsx'
 import type { Tab } from './components/shell/types'
+import AppRoutes from './routes/AppRoutes.tsx'
 import './components/shell/Loading.css'
 import './App.css'
 
@@ -118,38 +115,19 @@ function App() {
                 <Header userName={userName} onLogout={() => void logout()} />
 
                 <div className="app-view">
-                    <Routes>
-                        <Route path="/task" element={
-                            <TodayPage
-                                completed={taskStats.completed}
-                                total={taskStats.total}
-                                tasks={tasks}
-                                tasksLoading={tasksLoading}
-                                tasksError={tasksError}
-                                toggleCompleted={toggleCompleted}
-                                deleteTask={deleteTask}
-                                saveEdit={saveEdit}
-                                onSendSummary={() => void sendTaskSummary()}
-                                sendingSummary={sendingSummary}
-                                summaryStatus={summaryStatus}
-                            />
-                        } />
-                        <Route path="/stats" element={
-                            <StatsPage
-                                completed={taskStats.completed}
-                                total={taskStats.total}
-                                tasks={tasks.map((task) => ({
-                                    title: task.title,
-                                    description: task.description,
-                                    completed: task.completed,
-                                }))}
-                                recipient={user.email || ''}
-                            />
-                        } />
-                        <Route path="/habits" element={<HabitsPage />} />
-                        <Route path="/profile" element={<ProfilePage user={user} />} />
-                        <Route path="*" element={<Navigate to="/task" replace />} />
-                    </Routes>
+                    <AppRoutes
+                        user={user}
+                        tasks={tasks}
+                        tasksLoading={tasksLoading}
+                        tasksError={tasksError}
+                        completedTasks={taskStats.completed}
+                        onToggleCompleted={toggleCompleted}
+                        onDeleteTask={deleteTask}
+                        onSaveEdit={saveEdit}
+                        onSendSummary={() => void sendTaskSummary()}
+                        sendingSummary={sendingSummary}
+                        summaryStatus={summaryStatus}
+                    />
                 </div>
             </main>
 
