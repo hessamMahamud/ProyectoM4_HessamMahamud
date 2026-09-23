@@ -43,7 +43,6 @@ service cloud.firestore {
       && habit.type is string
       && habit.type in ['build', 'quit']
       && habit.completed is bool
-      && habit.userId is string
-      && habit.createdAt is timestamp;
+      && habit.userId is string;
   }
 }

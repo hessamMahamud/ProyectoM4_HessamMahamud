@@ -173,7 +173,16 @@
     background: var(--surface-card-subtle);
 }
 
-.habit-item input {
+.habit-checkbox {
+    display: grid;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    place-items: center;
+}
+
+.habit-checkbox input {
     position: absolute;
     opacity: 0;
     pointer-events: none;
@@ -181,7 +190,6 @@
 
 .habit-checkmark {
     display: grid;
-    flex: 0 0 24px;
     width: 24px;
     height: 24px;
     place-items: center;

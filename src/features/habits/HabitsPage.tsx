@@ -73,13 +73,15 @@ export default function HabitsPage() {
                     </form>
                 ) : (
                     <>
-                        <input
-                            type="checkbox"
-                            checked={habit.completed}
-                            onChange={() => void toggleCompleted(habit)}
-                            aria-label={`Completar hábito: ${habit.title}`}
-                        />
-                        <span className="habit-checkmark"><Check size={14} strokeWidth={3} /></span>
+                        <label className="habit-checkbox">
+                            <input
+                                type="checkbox"
+                                checked={habit.completed}
+                                onChange={() => void toggleCompleted(habit)}
+                                aria-label={`Completar hábito: ${habit.title}`}
+                            />
+                            <span className="habit-checkmark"><Check size={14} strokeWidth={3} /></span>
+                        </label>
                         <span className="habit-item-copy">
                             <strong>{habit.title}</strong>
                             <small>{habit.completed ? 'Completado hoy' : habit.type === 'build' ? 'Un paso más para construirlo' : 'Un paso más para soltarlo'}</small>
