@@ -9,7 +9,7 @@ const { signInMock, signUpMock, signInWithGoogleMock } = vi.hoisted(() => ({
     signInWithGoogleMock: vi.fn(),
 }))
 
-vi.mock('../features/auth/Authenticator.tsx', () => ({
+vi.mock('../features/auth/AuthContext', () => ({
     useAuth: () => ({
         signIn: signInMock,
         signUp: signUpMock,

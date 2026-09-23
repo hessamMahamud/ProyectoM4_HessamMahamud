@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react'
-import type { Timestamp } from 'firebase/firestore'
+import { useState } from 'react'
+import type { DocumentData, Timestamp } from 'firebase/firestore'
 import {
-    collection,
     deleteDoc,
     doc,
-    onSnapshot,
-    query,
     updateDoc,
-    where,
 } from 'firebase/firestore'
 import { db } from '../services/firebase'
+import useFirestoreCollection from './useFirestoreCollection'
 
 export interface Task {
     id: string;
@@ -29,61 +26,28 @@ export interface UseTasksResult {
     saveEdit: (taskId: string, title: string, description: string) => Promise<boolean>;
 }
 
+const mapTask = (data: DocumentData, id: string): Task => ({
+    id,
+    title: data.title ?? '',
+    description: data.description ?? '',
+    completed: Boolean(data.completed),
+    userId: data.userId ?? '',
+    createdAt: data.createdAt ?? null,
+});
+
 export default function useTasks(userId: string | undefined): UseTasksResult {
-    const [tasks, setTasks] = useState<Task[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string>('');
+    const [actionError, setActionError] = useState<string>('');
+    const { data: tasks, loading, error: queryError } = useFirestoreCollection(
+        userId,
+        'tasks',
+        mapTask,
+    );
 
-    useEffect(() => {
-        if (!userId) {
-            setTasks([]);
-            setLoading(false);
-            setError('');
-            return;
-        }
-
-        setLoading(true);
-        setError('');
-
-        const tasksQuery = query(
-            collection(db, 'tasks'),
-            where('userId', '==', userId),
-        );
-
-        const unsubscribe = onSnapshot(
-            tasksQuery,
-            (snapshot) => {
-                const fetchedTasks: Task[] = snapshot.docs.map((taskSnapshot) => {
-                    const data = taskSnapshot.data();
-                    return {
-                        id: taskSnapshot.id,
-                        title: data.title ?? '',
-                        description: data.description ?? '',
-                        completed: Boolean(data.completed),
-                        userId: data.userId ?? '',
-                        createdAt: data.createdAt ?? null,
-                    };
-                });
-
-                fetchedTasks.sort((firstTask, secondTask) => {
-                    const firstTime = firstTask.createdAt?.toMillis() ?? 0;
-                    const secondTime = secondTask.createdAt?.toMillis() ?? 0;
-                    return secondTime - firstTime;
-                });
-
-                setTasks(fetchedTasks);
-                setLoading(false);
-            },
-            (snapshotError) => {
-                setError(snapshotError instanceof Error
-                    ? snapshotError.message
-                    : 'Error al obtener las tareas en tiempo real.');
-                setLoading(false);
-            },
-        );
-
-        return () => unsubscribe();
-    }, [userId]);
+    const sortedTasks = [...tasks].sort((firstTask, secondTask) => {
+        const firstTime = firstTask.createdAt?.toMillis() ?? 0;
+        const secondTime = secondTask.createdAt?.toMillis() ?? 0;
+        return secondTime - firstTime;
+    });
 
     const toggleCompleted = async (task: Task): Promise<void> => {
         try {
@@ -91,7 +55,7 @@ export default function useTasks(userId: string | undefined): UseTasksResult {
                 completed: !task.completed,
             });
         } catch (actionError) {
-            setError(actionError instanceof Error
+            setActionError(actionError instanceof Error
                 ? actionError.message
                 : 'No se pudo actualizar la tarea.');
         }
@@ -103,7 +67,7 @@ export default function useTasks(userId: string | undefined): UseTasksResult {
         try {
             await deleteDoc(doc(db, 'tasks', taskId));
         } catch (actionError) {
-            setError(actionError instanceof Error
+            setActionError(actionError instanceof Error
                 ? actionError.message
                 : 'No se pudo eliminar la tarea.');
         }
@@ -116,7 +80,7 @@ export default function useTasks(userId: string | undefined): UseTasksResult {
     ): Promise<boolean> => {
         const trimmedTitle = title.trim();
         if (!trimmedTitle) {
-            setError('El título no puede estar vacío.');
+            setActionError('El título no puede estar vacío.');
             return false;
         }
 
@@ -127,12 +91,12 @@ export default function useTasks(userId: string | undefined): UseTasksResult {
             });
             return true;
         } catch (actionError) {
-            setError(actionError instanceof Error
+            setActionError(actionError instanceof Error
                 ? actionError.message
                 : 'No se pudo guardar la tarea.');
             return false;
         }
     };
 
-    return { tasks, loading, error, toggleCompleted, deleteTask, saveEdit };
+    return { tasks: sortedTasks, loading, error: actionError || queryError, toggleCompleted, deleteTask, saveEdit };
 }

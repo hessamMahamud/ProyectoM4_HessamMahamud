@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { FormEvent, ReactElement } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../services/firebase'
-import { useAuth } from '../features/auth/Authenticator.tsx'
+import { useAuth } from '../features/auth/AuthContext'
 import './TaskForm.css'
 
 interface TaskFormProps {

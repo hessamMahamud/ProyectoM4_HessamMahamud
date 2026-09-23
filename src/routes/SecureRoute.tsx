@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../features/auth/Authenticator.tsx'
+import { useAuth } from '../features/auth/AuthContext'
 
 interface SecureRouteProps {
     children: ReactNode;

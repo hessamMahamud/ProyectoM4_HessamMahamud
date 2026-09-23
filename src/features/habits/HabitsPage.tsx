@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Check, MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react'
-import { useAuth } from '../auth/Authenticator.tsx'
+import { useAuth } from '../auth/AuthContext'
 import useHabits from '../../hooks/useHabits'
 import type { Habit } from '../../hooks/useHabits'
 import './HabitsPage.css'

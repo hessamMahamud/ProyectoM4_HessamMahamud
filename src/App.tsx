@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import { useAuth } from './features/auth/Authenticator.tsx'
+import { useAuth } from './features/auth/AuthContext'
 import LoginForm from './components/LoginForm.tsx'
 import useTasks from './hooks/useTasks'
 import Header from './components/shell/Header.tsx'

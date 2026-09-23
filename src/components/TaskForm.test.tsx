@@ -17,7 +17,7 @@ vi.mock('firebase/firestore', () => ({
 
 vi.mock('../services/firebase', () => ({ db: 'firestore-db' }))
 
-vi.mock('../features/auth/Authenticator.tsx', () => ({
+vi.mock('../features/auth/AuthContext', () => ({
     useAuth: () => ({ user: { uid: 'user-123' } }),
 }))
 

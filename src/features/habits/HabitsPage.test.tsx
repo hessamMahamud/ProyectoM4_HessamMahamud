@@ -20,7 +20,7 @@ vi.mock('../../hooks/useHabits', () => ({
     default: () => habitsHookMock,
 }))
 
-vi.mock('../auth/Authenticator.tsx', () => ({
+vi.mock('../auth/AuthContext', () => ({
     useAuth: () => ({ user: { uid: 'user-123' } }),
 }))
 

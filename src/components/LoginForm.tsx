@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { useAuth } from '../features/auth/Authenticator.tsx'
+import { useAuth } from '../features/auth/AuthContext'
 import GoogleIcon from './icons/GoogleIcon.tsx'
 import './LoginForm.css'
 

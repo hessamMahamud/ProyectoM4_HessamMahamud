@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react'
-import type { Timestamp } from 'firebase/firestore'
+import { useState } from 'react'
+import type { DocumentData, Timestamp } from 'firebase/firestore'
 import {
     addDoc,
     collection,
     deleteDoc,
     doc,
-    onSnapshot,
-    query,
     serverTimestamp,
     updateDoc,
-    where,
 } from 'firebase/firestore'
 import { db } from '../services/firebase'
+import useFirestoreCollection from './useFirestoreCollection'
 
 export interface Habit {
     id: string;
@@ -32,68 +30,33 @@ export interface UseHabitsResult {
     saveEdit: (habitId: string, title: string) => Promise<boolean>;
 }
 
+const mapHabit = (data: DocumentData, id: string): Habit => ({
+    id,
+    title: data.title ?? '',
+    type: (data.type === 'quit' ? 'quit' : 'build') as Habit['type'],
+    completed: Boolean(data.completed),
+    userId: data.userId ?? '',
+    createdAt: data.createdAt ?? null,
+});
+
 export default function useHabits(userId: string | undefined): UseHabitsResult {
-    const [habits, setHabits] = useState<Habit[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string>('');
+    const [actionError, setActionError] = useState<string>('');
+    const { data: habits, loading, error: queryError } = useFirestoreCollection(
+        userId,
+        'habits',
+        mapHabit,
+    );
 
-    useEffect(() => {
-        if (!userId) {
-            setHabits([]);
-            setLoading(false);
-            setError('');
-            return;
-        }
-
-        setLoading(true);
-        setError('');
-
-        const habitsQuery = query(
-            collection(db, 'habits'),
-            where('userId', '==', userId),
-        );
-
-        const unsubscribe = onSnapshot(
-            habitsQuery,
-            (snapshot) => {
-                const fetchedHabits: Habit[] = snapshot.docs.map((habitSnapshot) => {
-                    const data = habitSnapshot.data();
-                    const type = data.type === 'quit' ? 'quit' : 'build';
-
-                    return {
-                        id: habitSnapshot.id,
-                        title: data.title ?? '',
-                        type,
-                        completed: Boolean(data.completed),
-                        userId: data.userId ?? '',
-                        createdAt: data.createdAt ?? null,
-                    };
-                });
-
-                fetchedHabits.sort((firstHabit, secondHabit) => {
-                    const firstTime = firstHabit.createdAt?.toMillis() ?? 0;
-                    const secondTime = secondHabit.createdAt?.toMillis() ?? 0;
-                    return secondTime - firstTime;
-                });
-
-                setHabits(fetchedHabits);
-                setLoading(false);
-            },
-            (snapshotError) => {
-                setError(snapshotError instanceof Error
-                    ? snapshotError.message
-                    : 'Error al obtener los hábitos en tiempo real.');
-                setLoading(false);
-            },
-        );
-
-        return () => unsubscribe();
-    }, [userId]);
+    const sortedHabits = [...habits].sort((firstHabit, secondHabit) => {
+        const firstTime = firstHabit.createdAt?.toMillis() ?? 0;
+        const secondTime = secondHabit.createdAt?.toMillis() ?? 0;
+        return secondTime - firstTime;
+    });
 
     const addHabit = async (title: string, type: Habit['type']): Promise<boolean> => {
         const trimmedTitle = title.trim();
         if (!trimmedTitle || !userId) {
-            setError(!trimmedTitle ? 'El título del hábito no puede estar vacío.' : 'Debes iniciar sesión para crear un hábito.');
+            setActionError(!trimmedTitle ? 'El título del hábito no puede estar vacío.' : 'Debes iniciar sesión para crear un hábito.');
             return false;
         }
 
@@ -107,7 +70,7 @@ export default function useHabits(userId: string | undefined): UseHabitsResult {
             });
             return true;
         } catch (actionError) {
-            setError(actionError instanceof Error
+            setActionError(actionError instanceof Error
                 ? actionError.message
                 : 'No se pudo crear el hábito.');
             return false;
@@ -120,7 +83,7 @@ export default function useHabits(userId: string | undefined): UseHabitsResult {
                 completed: !habit.completed,
             });
         } catch (actionError) {
-            setError(actionError instanceof Error
+            setActionError(actionError instanceof Error
                 ? actionError.message
                 : 'No se pudo actualizar el hábito.');
         }
@@ -132,7 +95,7 @@ export default function useHabits(userId: string | undefined): UseHabitsResult {
         try {
             await deleteDoc(doc(db, 'habits', habitId));
         } catch (actionError) {
-            setError(actionError instanceof Error
+            setActionError(actionError instanceof Error
                 ? actionError.message
                 : 'No se pudo eliminar el hábito.');
         }
@@ -141,7 +104,7 @@ export default function useHabits(userId: string | undefined): UseHabitsResult {
     const saveEdit = async (habitId: string, title: string): Promise<boolean> => {
         const trimmedTitle = title.trim();
         if (!trimmedTitle) {
-            setError('El título del hábito no puede estar vacío.');
+            setActionError('El título del hábito no puede estar vacío.');
             return false;
         }
 
@@ -151,12 +114,12 @@ export default function useHabits(userId: string | undefined): UseHabitsResult {
             });
             return true;
         } catch (actionError) {
-            setError(actionError instanceof Error
+            setActionError(actionError instanceof Error
                 ? actionError.message
                 : 'No se pudo guardar el hábito.');
             return false;
         }
     };
 
-    return { habits, loading, error, addHabit, toggleCompleted, deleteHabit, saveEdit };
+    return { habits: sortedHabits, loading, error: actionError || queryError, addHabit, toggleCompleted, deleteHabit, saveEdit };
 }

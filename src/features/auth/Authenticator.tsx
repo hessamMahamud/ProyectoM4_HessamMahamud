@@ -1,6 +1,6 @@
 
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import type { ReactElement, ReactNode } from "react";
 import { auth } from "../../services/firebase";
 import {
@@ -12,6 +12,7 @@ import {
     onAuthStateChanged,
 } from "firebase/auth";
 import type { User, UserCredential } from "firebase/auth";
+import { AuthContext } from './AuthContext'
 
 export interface AuthContextValue {
     user: User | null;
@@ -21,8 +22,6 @@ export interface AuthContextValue {
     signInWithGoogle: () => Promise<UserCredential>;
     logout: () => Promise<void>;
 }
-
-const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function Authenticator({ children }: { children: ReactNode }): ReactElement {
     const [user, setUser] = useState<User | null>(null);
@@ -49,10 +48,4 @@ export function Authenticator({ children }: { children: ReactNode }): ReactEleme
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth(): AuthContextValue {
-    const context = useContext(AuthContext);
-    if (!context) throw new Error("useAuth debe usarse dentro de un <Authenticator>");
-    return context;
 }
