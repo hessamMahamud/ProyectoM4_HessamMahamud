@@ -4,6 +4,14 @@ SPA de gestión de tareas y hábitos con autenticación de usuarios, persistenci
 
 - **Demo en producción:** https://proyecto-m4-hessam-mahamud.vercel.app
 
+![task](src/assets/img/Screenshot%20From%202026-09-24%2010-21-30.png)
+
+![habits](src/assets/img/Screenshot%20From%202026-09-24%2010-21-38.png)
+
+![stats](src/assets/img/Screenshot%20From%202026-09-24%2010-21-42.png)
+
+![profile](src/assets/img/Screenshot%20From%202026-09-24%2010-21-46.png)
+
 ## Tecnologías
 
 - **React** + **TypeScript** + **Vite**
